@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Punto della Strada — Clan</title>
+  <style>
+    :root {
+      --bg: #1a1a14;
+      --surface: #242418;
+      --card: #2e2e22;
+      --border: #3d3d2e;
+      --accent: #c8a84b;
+      --accent2: #8fbc6a;
+      --text: #e8e4d8;
+      --muted: #9a9680;
+      --danger: #c0624a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      text-align: center;
+      padding: 60px 24px 40px;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse at top, #2a2a1a 0%, var(--bg) 70%);
+    }
+
+    .hero-icon { font-size: 48px; margin-bottom: 16px; }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1.05rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ─── NAV TABS ─── */
+    nav {
+      display: flex;
+      overflow-x: auto;
+      gap: 0;
+      background: var(--surface);
+      border-bottom: 2px solid var(--border);
+      scrollbar-width: none;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav::-webkit-scrollbar { display: none; }
+
+    nav button {
+      flex: 0 0 auto;
+      padding: 14px 20px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    nav button .tab-icon { font-size: 1.3rem; }
+    nav button .tab-label { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    nav button:hover { color: var(--text); background: var(--card); }
+
+    nav button.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ─── SECTIONS ─── */
+    .section { display: none; padding: 32px 20px 60px; max-width: 700px; margin: 0 auto; }
+    .section.active { display: block; }
+
+    .section-header { margin-bottom: 32px; }
+    .section-header .icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .section-header h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 6px; }
+    .section-header .subtitle { color: var(--muted); font-style: italic; font-size: 0.95rem; }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    /* ─── EMBED ─── */
+    .embed-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #000;
+      margin-bottom: 8px;
+    }
+
+    .embed-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .embed-caption {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* ─── DOMANDE ─── */
+    .domande { margin-top: 28px; }
+
+    .domande-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .domande-title::before,
+    .domande-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .domanda {
+      background: var(--surface);
+      border-left: 3px solid var(--accent2);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      font-size: 0.97rem;
+      line-height: 1.6;
+    }
+
+    .domanda::before {
+      content: attr(data-n) ". ";
+      color: var(--accent2);
+      font-weight: bold;
+    }
+
+    /* ─── QUOTE ─── */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-style: italic;
+      color: var(--text);
+      font-size: 0.97rem;
+      line-height: 1.7;
+    }
+
+    .quote-block cite {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 8px;
+      font-style: normal;
+    }
+
+    /* ─── GOSPEL BOX ─── */
+    .gospel {
+      background: #1e1e12;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .gospel .ref {
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-icon">🏕️</div>
+  <h1>Punto della Strada</h1>
+  <p>Un momento per fermarsi, guardare indietro e capire dove stiamo andando.</p>
+</div>
+
+<!-- NAV -->
+<nav>
+  <button class="active" onclick="show('strada', this)">
+    <span class="tab-icon">🚶</span>
+    <span class="tab-label">Strada</span>
+  </button>
+  <button onclick="show('fede', this)">
+    <span class="tab-icon">✝️</span>
+    <span class="tab-label">Fede</span>
+  </button>
+  <button onclick="show('servizio', this)">
+    <span class="tab-icon">🤝</span>
+    <span class="tab-label">Servizio</span>
+  </button>
+  <button onclick="show('comunita', this)">
+    <span class="tab-icon">🔥</span>
+    <span class="tab-label">Comunità</span>
+  </button>
+  <button onclick="show('io', this)">
+    <span class="tab-icon">🧭</span>
+    <span class="tab-label">Io</span>
+  </button>
+</nav>
+
+<!-- ═══════════════ STRADA ═══════════════ -->
+<section id="strada" class="section active">
+  <div class="section-header">
+    <div class="icon">🚶</div>
+    <h2>La Strada</h2>
+    <p class="subtitle">Camminare è già una risposta.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Ascolta</div>
+    <h3>Giorgio Gaber — La Strada</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/qXk_b_D-Z7A" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Giorgio Gaber</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Ascolta</div>
+    <h3>Nomadi — Cammina Cammina</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/9ViJ0DTPW_E" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Nomadi</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Ascolta</div>
+    <h3>Modena City Ramblers — Tra Quanto Sangue</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/KCfmTvDIi1Y" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Modena City Ramblers</p>
+  </div>
+
+  <div class="quote-block">
+    "La strada non è dove si va. La strada è come si va."
+  </div>
+
+  <div class="domande">
+    <div class="domande-title">Domande per riflettere</div>
+    <div class="domanda" data-n="1">Che cosa intendi quando dici "sono sulla strada"? Dove senti di essere adesso nel tuo cammino di Rover/Scolta?</div>
+    <div class="domanda" data-n="2">C'è qualcosa che ti ha fermato ultimamente — una fatica, un dubbio, una pausa? Come ti ha cambiato?</div>
+    <div class="domanda" data-n="3">La strada dello scoutismo è anche partenza e inizio: cosa stai iniziando?</div>
+  </div>
+</section>
+
+<!-- ═══════════════ FEDE ═══════════════ -->
+<section id="fede" class="section">
+  <div class="section-header">
+    <div class="icon">✝️</div>
+    <h2>Fede</h2>
+    <p class="subtitle">Il Vangelo di Emmaus — i discepoli che camminano senza riconoscerlo.</p>
+  </div>
+
+  <div class="gospel">
+    <div class="ref">Luca 24, 13–35 — Vangelo di Emmaus</div>
+    <p>Ed ecco, in quello stesso giorno due di loro erano in cammino per un villaggio distante circa undici chilometri da Gerusalemme, di nome Emmaus, e conversavano tra loro di tutto quello che era accaduto.</p>
+    <br>
+    <p>Mentre conversavano e discutevano insieme, Gesù in persona si avvicinò e camminava con loro. Ma i loro occhi erano impediti a riconoscerlo.</p>
+    <br>
+    <p>Ed egli disse loro: «Di che cosa state discutendo tra voi lungo il cammino?». Si fermarono, col volto triste; uno di loro, di nome Clèopa, gli rispose: «Tu solo sei così forestiero in Gerusalemme da non sapere ciò che vi è accaduto in questi giorni?».</p>
+    <br>
+    <p>«Che cosa?» domandò loro. Gli risposero: «Ciò che riguarda Gesù, il Nazareno, che fu profeta potente in opere e in parole, davanti a Dio e a tutto il popolo; come i capi dei sacerdoti e le nostre autorità lo hanno consegnato per farlo condannare a morte e lo hanno crocifisso. Noi speravamo che egli fosse colui che avrebbe liberato Israele; con tutto ciò, sono passati tre giorni da quando queste cose sono accadute.»</p>
+    <br>
+    <p>Egli disse loro: «Stolti e lenti di cuore a credere in tutto ciò che hanno detto i profeti! Non bisognava che il Cristo patisse queste sofferenze per entrare nella sua gloria?». E, cominciando da Mosè e da tutti i Profeti, spiegò loro in tutte le Scritture ciò che si riferiva a lui.</p>
+    <br>
+    <p>Quando furono vicini al villaggio dove erano diretti, egli fece come se dovesse andare più lontano. Ma essi insistettero: «Resta con noi, perché si fa sera e il giorno è ormai al tramonto». Egli entrò per rimanere con loro.</p>
+    <br>
+    <p>Quando fu a tavola con loro, prese il pane, recitò la benedizione, lo spezzò e lo diede loro. Allora si aprirono loro gli occhi e lo riconobbero. Ma egli sparì dalla loro vista. Ed essi dissero l'un l'altro: «Non ardeva forse in noi il nostro cuore mentre egli conversava con noi lungo la via, quando ci spiegava le Scritture?».</p>
+    <br>
+    <p>Partirono senza indugio e fece ritorno a Gerusalemme, dove trovarono riuniti gli Undici e gli altri che erano con loro, i quali dicevano: «Davvero il Signore è risorto ed è apparso a Simone!». Ed essi narravano ciò che era accaduto lungo la via e come l'avevano riconosciuto nello spezzare il pane.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Canzone</div>
+    <h3>Emmaus — i discepoli e il camminatore sconosciuto</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/HoQ7hpJP6bs" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Emmaus — canzone</p>
+  </div>
+
+  <div class="domande">
+    <div class="domande-title">Domande per riflettere</div>
+    <div class="domanda" data-n="1">I discepoli di Emmaus camminavano senza riconoscerlo. Ci sono stati momenti nella tua vita in cui Dio era presente ma tu non te ne sei accorto? Quando te ne sei reso conto?</div>
+    <div class="domanda" data-n="2">"Non ardeva forse in noi il nostro cuore?" — Quando è stata l'ultima volta che hai sentito quella fiamma? Cosa la accende nella tua vita?</div>
+    <div class="domanda" data-n="3">Come vivi la tua fede oggi — è un cammino, una certezza, una domanda aperta?</div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVIZIO ═══════════════ -->
+<section id="servizio" class="section">
+  <div class="section-header">
+    <div class="icon">🤝</div>
+    <h2>Servizio</h2>
+    <p class="subtitle">Non per chi lo fa. Per chi ne ha bisogno.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">📽️ Guarda</div>
+    <h3>Un video sul servizio</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/fUXdrl9ch_Q" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    "Il servizio non è un atto eroico. È una scelta quotidiana di guardarsi intorno."
+  </div>
+
+  <div class="quote-block">
+    "Servire significa uscire dal proprio centro di gravità e farlo diventare l'altro."
+  </div>
+
+  <div class="domande">
+    <div class="domande-title">Domande per riflettere</div>
+    <div class="domanda" data-n="1">Quando servi, lo fai per gli altri o un po' anche per te stesso? C'è differenza? È un problema?</div>
+    <div class="domanda" data-n="2">C'è un momento in cui il servizio ti ha cambiato — in cui hai ricevuto più di quanto hai dato?</div>
+    <div class="domanda" data-n="3">Qual è la forma di servizio che senti più tua in questo periodo della tua vita?</div>
+  </div>
+</section>
+
+<!-- ═══════════════ COMUNITÀ ═══════════════ -->
+<section id="comunita" class="section">
+  <div class="section-header">
+    <div class="icon">🔥</div>
+    <h2>Comunità</h2>
+    <p class="subtitle">Il clan, la vita, gli altri. Il "tu" che è fratello.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Ascolta</div>
+    <h3>Guccini — Canzone per un'amica</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/JB-JlLcOo2k" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Francesco Guccini — sulla comunità e l'amicizia</p>
+  </div>
+
+  <div class="quote-block">
+    "La comunità non è stare insieme. È scegliersi ogni volta."
+  </div>
+
+  <div class="quote-block">
+    "C'è un 'tu' che mi precede. Un fratello che esiste prima che io lo riconosca."
+    <cite>— Martin Buber (rielaborato)</cite>
+  </div>
+
+  <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
+    Due livelli di comunità: quella del <strong style="color: var(--text)">clan</strong> — i compagni di strada scelti — e quella della <strong style="color: var(--text)">vita</strong> — gli altri, la società, chi incontro ogni giorno. Entrambe mi chiedono qualcosa.
+  </p>
+
+  <div class="domande">
+    <div class="domande-title">Domande per riflettere</div>
+    <div class="domanda" data-n="1">Chi è il tuo clan? Non chi è nel clan — ma chi senti davvero come compagno di strada in questo momento?</div>
+    <div class="domanda" data-n="2">Nella comunità più larga — scuola, lavoro, quartiere — c'è un "tu" che senti come fratello o sorella? Come lo vivi?</div>
+    <div class="domanda" data-n="3">Cosa ti chiede la comunità che fai fatica a dare? Cosa ti dà che non ti aspettavi?</div>
+  </div>
+</section>
+
+<!-- ═══════════════ IO ═══════════════ -->
+<section id="io" class="section">
+  <div class="section-header">
+    <div class="icon">🧭</div>
+    <h2>Ci sono anch'io</h2>
+    <p class="subtitle">Il mio essere sulla strada. Dove sono adesso.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">🎵 Ascolta</div>
+    <h3>Lucio Battisti — Io vorrei... non vorrei... ma se vuoi</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/tH4TmPUn2vs" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <p class="embed-caption">Sul desiderio, la scelta, l'identità</p>
+  </div>
+
+  <div class="quote-block">
+    "Essere sulla strada vuol dire non aver ancora deciso dove si arriva. E va bene così."
+  </div>
+
+  <div class="quote-block">
+    "Ci sono anch'io — non solo come membro del clan, ma come persona. Con i miei passi, i miei pesi, le mie direzioni."
+  </div>
+
+  <div class="domande">
+    <div class="domande-title">Domande per riflettere</div>
+    <div class="domanda" data-n="1">Dove senti di essere adesso — nel tuo cammino personale, non quello del clan? Stai avanzando, stai riposando, stai girando in tondo?</div>
+    <div class="domanda" data-n="2">C'è qualcosa di te che stai scoprendo in questo periodo? Qualcosa che stai perdendo?</div>
+    <div class="domanda" data-n="3">Cosa porti con te quando finisce questa uscita? Una parola, un'immagine, una domanda.</div>
+  </div>
+</section>
+
+<footer>
+  Clan &mdash; Punto della Strada &mdash; 2026
+</footer>
+
+<script>
+  function show(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

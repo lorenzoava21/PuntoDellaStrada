@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Punto della Strada — Clan</title>
+  <title>Punto della Strada - Clan Strada Facendo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #1a1a14;
-      --surface: #242418;
-      --card: #2e2e22;
-      --border: #3d3d2e;
-      --accent: #c8a84b;
-      --accent2: #8fbc6a;
-      --text: #e8e4d8;
-      --muted: #9a9680;
-      --danger: #c0624a;
+      --bg:       #18180f;
+      --surface:  #212115;
+      --card:     #2a2a1b;
+      --border:   #3a3a28;
+      --red:      #b8080b;
+      --red-dark: #8a0608;
+      --gold:     #c8a84b;
+      --green:    #4a7c3f;
+      --text:     #ede9da;
+      --muted:    #96927e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,40 +26,55 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Georgia', serif;
+      font-family: 'Roboto', sans-serif;
       min-height: 100vh;
     }
 
-    /* ─── HERO ─── */
+    h1, h2, h3, .tab-label, .section-header h2 {
+      font-family: 'Roboto Slab', serif;
+    }
+
+    /* HERO */
     .hero {
       text-align: center;
-      padding: 60px 24px 40px;
+      padding: 52px 24px 36px;
       border-bottom: 1px solid var(--border);
-      background: radial-gradient(ellipse at top, #2a2a1a 0%, var(--bg) 70%);
+      background: radial-gradient(ellipse at top, #26200e 0%, var(--bg) 68%);
     }
 
-    .hero-icon { font-size: 48px; margin-bottom: 16px; }
+    .hero-fleur {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: block;
+      color: var(--gold);
+      letter-spacing: -2px;
+    }
 
     .hero h1 {
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
-      color: var(--accent);
-      letter-spacing: 0.04em;
-      margin-bottom: 8px;
+      font-size: clamp(1.6rem, 5vw, 2.5rem);
+      color: var(--red);
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
     }
 
-    .hero p {
+    .hero .clan-name {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .hero .hero-date {
       color: var(--muted);
-      font-style: italic;
-      font-size: 1.05rem;
-      max-width: 480px;
-      margin: 0 auto;
+      font-size: 0.88rem;
     }
 
-    /* ─── NAV TABS ─── */
+    /* NAV TABS */
     nav {
       display: flex;
       overflow-x: auto;
-      gap: 0;
       background: var(--surface);
       border-bottom: 2px solid var(--border);
       scrollbar-width: none;
@@ -66,43 +85,148 @@
     nav::-webkit-scrollbar { display: none; }
 
     nav button {
-      flex: 0 0 auto;
-      padding: 14px 20px;
+      flex: 1 0 auto;
+      padding: 12px 16px;
       background: none;
       border: none;
       border-bottom: 3px solid transparent;
       color: var(--muted);
-      font-family: inherit;
-      font-size: 0.85rem;
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.8rem;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.2s;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
-    nav button .tab-icon { font-size: 1.3rem; }
-    nav button .tab-label { font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
-
+    nav button svg { width: 22px; height: 22px; fill: currentColor; }
+    nav button .tab-label { font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; }
     nav button:hover { color: var(--text); background: var(--card); }
+    nav button.active { color: var(--red); border-bottom-color: var(--red); }
 
-    nav button.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    /* ─── SECTIONS ─── */
-    .section { display: none; padding: 32px 20px 60px; max-width: 700px; margin: 0 auto; }
+    /* SECTIONS */
+    .section { display: none; padding: 32px 20px 64px; max-width: 700px; margin: 0 auto; }
     .section.active { display: block; }
 
-    .section-header { margin-bottom: 32px; }
-    .section-header .icon { font-size: 2.4rem; margin-bottom: 10px; }
-    .section-header h2 { font-size: 1.8rem; color: var(--accent); margin-bottom: 6px; }
-    .section-header .subtitle { color: var(--muted); font-style: italic; font-size: 0.95rem; }
+    /* HOME CARDS */
+    .home-intro {
+      text-align: center;
+      padding: 28px 0 36px;
+    }
+    .home-intro .fleur { font-size: 2rem; color: var(--gold); display: block; margin-bottom: 12px; }
+    .home-intro p {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto;
+    }
 
-    /* ─── CARDS ─── */
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 440px) {
+      .home-grid { grid-template-columns: 1fr; }
+    }
+
+    .home-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .home-card:hover {
+      border-color: var(--red);
+      background: #30200d;
+    }
+
+    .home-card .card-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--red-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .home-card .card-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--text);
+    }
+
+    .home-card h3 {
+      font-family: 'Roboto Slab', serif;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .home-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .home-card .card-cta {
+      font-size: 0.75rem;
+      color: var(--red);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: 'Roboto Slab', serif;
+      margin-top: auto;
+    }
+
+    /* SECTION HEADER */
+    .section-header { margin-bottom: 32px; }
+
+    .section-header .icon-wrap {
+      width: 52px;
+      height: 52px;
+      background: var(--red-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .section-header .icon-wrap svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--text);
+    }
+
+    .section-header h2 {
+      font-size: 1.8rem;
+      color: var(--red);
+      margin-bottom: 6px;
+    }
+
+    .section-header .subtitle {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.92rem;
+    }
+
+    /* CARD */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -112,20 +236,21 @@
     }
 
     .card-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--muted);
+      font-family: 'Roboto Slab', serif;
       margin-bottom: 10px;
     }
 
     .card h3 {
-      font-size: 1.05rem;
-      color: var(--accent);
+      font-size: 1rem;
+      color: var(--gold);
       margin-bottom: 14px;
     }
 
-    /* ─── EMBED ─── */
+    /* EMBED */
     .embed-wrap {
       position: relative;
       padding-bottom: 56.25%;
@@ -144,24 +269,26 @@
     }
 
     .embed-caption {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--muted);
       font-style: italic;
       text-align: center;
+      margin-top: 4px;
     }
 
-    /* ─── DOMANDE ─── */
+    /* DOMANDE */
     .domande { margin-top: 28px; }
 
     .domande-title {
-      font-size: 0.7rem;
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.68rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--accent2);
+      color: var(--gold);
       margin-bottom: 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .domande-title::before,
@@ -174,65 +301,81 @@
 
     .domanda {
       background: var(--surface);
-      border-left: 3px solid var(--accent2);
+      border-left: 3px solid var(--gold);
       border-radius: 0 8px 8px 0;
       padding: 14px 16px;
       margin-bottom: 12px;
-      font-size: 0.97rem;
-      line-height: 1.6;
+      font-size: 0.95rem;
+      line-height: 1.65;
     }
 
     .domanda::before {
       content: attr(data-n) ". ";
-      color: var(--accent2);
-      font-weight: bold;
+      color: var(--gold);
+      font-weight: 700;
+      font-family: 'Roboto Slab', serif;
     }
 
-    /* ─── QUOTE ─── */
+    /* QUOTE */
     .quote-block {
-      border-left: 3px solid var(--accent);
+      border-left: 3px solid var(--red);
       padding: 14px 18px;
       margin: 16px 0;
       font-style: italic;
       color: var(--text);
-      font-size: 0.97rem;
-      line-height: 1.7;
+      font-size: 0.95rem;
+      line-height: 1.75;
     }
 
     .quote-block cite {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--muted);
       margin-top: 8px;
       font-style: normal;
+      font-family: 'Roboto Slab', serif;
     }
 
-    /* ─── GOSPEL BOX ─── */
+    /* GOSPEL */
     .gospel {
-      background: #1e1e12;
-      border: 1px solid var(--accent);
+      background: #1c1c0f;
+      border: 1px solid var(--gold);
       border-radius: 10px;
       padding: 24px;
       margin-bottom: 20px;
-      line-height: 1.8;
-      font-size: 0.95rem;
+      line-height: 1.85;
+      font-size: 0.93rem;
     }
 
     .gospel .ref {
-      font-size: 0.78rem;
-      color: var(--accent);
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.75rem;
+      color: var(--gold);
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    /* ─── FOOTER ─── */
+    /* BODY TEXT NOTE */
+    .body-note {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      font-style: italic;
+      line-height: 1.6;
+    }
+
+    .body-note strong { color: var(--text); font-style: normal; }
+
+    /* FOOTER */
     footer {
       text-align: center;
       padding: 24px;
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       border-top: 1px solid var(--border);
+      font-family: 'Roboto Slab', serif;
+      letter-spacing: 0.04em;
     }
   </style>
 </head>
@@ -240,46 +383,110 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-icon">🏕️</div>
+  <span class="hero-fleur">⚜</span>
   <h1>Punto della Strada</h1>
-  <p>Un momento per fermarsi, guardare indietro e capire dove stiamo andando.</p>
+  <div class="clan-name">Clan Strada Facendo</div>
+  <div class="hero-date">Domenica 19 aprile 2026</div>
 </div>
 
 <!-- NAV -->
 <nav>
-  <button class="active" onclick="show('strada', this)">
-    <span class="tab-icon">🚶</span>
+  <button class="active" onclick="show('home', this)">
+    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span class="tab-label">Home</span>
+  </button>
+  <button onclick="show('strada', this)">
+    <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
     <span class="tab-label">Strada</span>
   </button>
   <button onclick="show('fede', this)">
-    <span class="tab-icon">✝️</span>
+    <svg viewBox="0 0 24 24"><path d="M11 2v7H4v2h7v11h2V11h7V9h-7V2z"/></svg>
     <span class="tab-label">Fede</span>
   </button>
   <button onclick="show('servizio', this)">
-    <span class="tab-icon">🤝</span>
+    <svg viewBox="0 0 24 24"><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>
     <span class="tab-label">Servizio</span>
   </button>
   <button onclick="show('comunita', this)">
-    <span class="tab-icon">🔥</span>
-    <span class="tab-label">Comunità</span>
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    <span class="tab-label">Comunita</span>
   </button>
   <button onclick="show('io', this)">
-    <span class="tab-icon">🧭</span>
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
     <span class="tab-label">Io</span>
   </button>
 </nav>
 
-<!-- ═══════════════ STRADA ═══════════════ -->
-<section id="strada" class="section active">
+<!-- HOME -->
+<section id="home" class="section active">
+  <div class="home-intro">
+    <span class="fleur">⚜</span>
+    <p>Un momento per fermarsi, guardare indietro e capire dove stiamo andando. Scegli un tema e lasciati provocare.</p>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-card" onclick="showById('strada')">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+      </div>
+      <h3>La Strada</h3>
+      <p>Camminare e' gia' una risposta. Gaber, Nomadi, Modena City Ramblers.</p>
+      <span class="card-cta">Esplora</span>
+    </div>
+
+    <div class="home-card" onclick="showById('fede')">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M11 2v7H4v2h7v11h2V11h7V9h-7V2z"/></svg>
+      </div>
+      <h3>Fede</h3>
+      <p>Il Vangelo di Emmaus. Due discepoli che camminano senza riconoscerlo.</p>
+      <span class="card-cta">Esplora</span>
+    </div>
+
+    <div class="home-card" onclick="showById('servizio')">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>
+      </div>
+      <h3>Servizio</h3>
+      <p>Non per chi lo fa. Per chi ne ha bisogno. Video e riflessioni.</p>
+      <span class="card-cta">Esplora</span>
+    </div>
+
+    <div class="home-card" onclick="showById('comunita')">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      </div>
+      <h3>Comunita</h3>
+      <p>Il clan, la vita, gli altri. Il "tu" che e' fratello.</p>
+      <span class="card-cta">Esplora</span>
+    </div>
+  </div>
+
+  <div class="home-card" style="flex-direction: row; align-items: center; gap: 18px;" onclick="showById('io')">
+    <div class="card-icon" style="flex-shrink: 0;">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </div>
+    <div>
+      <h3>Ci sono anch'io</h3>
+      <p style="font-size:0.82rem; color:var(--muted); line-height:1.5;">Il mio essere sulla strada. Dove sono adesso, cosa porto con me.</p>
+      <span class="card-cta" style="font-size:0.75rem; color:var(--red); font-family:'Roboto Slab',serif; text-transform:uppercase; letter-spacing:0.06em;">Esplora</span>
+    </div>
+  </div>
+</section>
+
+<!-- STRADA -->
+<section id="strada" class="section">
   <div class="section-header">
-    <div class="icon">🚶</div>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+    </div>
     <h2>La Strada</h2>
-    <p class="subtitle">Camminare è già una risposta.</p>
+    <p class="subtitle">Camminare e' gia' una risposta.</p>
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Ascolta</div>
-    <h3>Giorgio Gaber — La Strada</h3>
+    <div class="card-label">Ascolta</div>
+    <h3>Giorgio Gaber - La Strada</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/qXk_b_D-Z7A" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -287,8 +494,8 @@
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Ascolta</div>
-    <h3>Nomadi — Cammina Cammina</h3>
+    <div class="card-label">Ascolta</div>
+    <h3>Nomadi - Cammina Cammina</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/9ViJ0DTPW_E" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -296,8 +503,8 @@
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Ascolta</div>
-    <h3>Modena City Ramblers — Tra Quanto Sangue</h3>
+    <div class="card-label">Ascolta</div>
+    <h3>Modena City Ramblers</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/KCfmTvDIi1Y" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -305,71 +512,75 @@
   </div>
 
   <div class="quote-block">
-    "La strada non è dove si va. La strada è come si va."
+    "La strada non e' dove si va. La strada e' come si va."
   </div>
 
   <div class="domande">
     <div class="domande-title">Domande per riflettere</div>
     <div class="domanda" data-n="1">Che cosa intendi quando dici "sono sulla strada"? Dove senti di essere adesso nel tuo cammino di Rover/Scolta?</div>
-    <div class="domanda" data-n="2">C'è qualcosa che ti ha fermato ultimamente — una fatica, un dubbio, una pausa? Come ti ha cambiato?</div>
-    <div class="domanda" data-n="3">La strada dello scoutismo è anche partenza e inizio: cosa stai iniziando?</div>
+    <div class="domanda" data-n="2">C'e' qualcosa che ti ha fermato ultimamente: una fatica, un dubbio, una pausa? Come ti ha cambiato?</div>
+    <div class="domanda" data-n="3">La strada dello scoutismo e' anche partenza e inizio: cosa stai iniziando?</div>
   </div>
 </section>
 
-<!-- ═══════════════ FEDE ═══════════════ -->
+<!-- FEDE -->
 <section id="fede" class="section">
   <div class="section-header">
-    <div class="icon">✝️</div>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M11 2v7H4v2h7v11h2V11h7V9h-7V2z"/></svg>
+    </div>
     <h2>Fede</h2>
-    <p class="subtitle">Il Vangelo di Emmaus — i discepoli che camminano senza riconoscerlo.</p>
+    <p class="subtitle">Il Vangelo di Emmaus: i discepoli che camminano senza riconoscerlo.</p>
   </div>
 
   <div class="gospel">
-    <div class="ref">Luca 24, 13–35 — Vangelo di Emmaus</div>
+    <div class="ref">Luca 24, 13-35 - Vangelo di Emmaus</div>
     <p>Ed ecco, in quello stesso giorno due di loro erano in cammino per un villaggio distante circa undici chilometri da Gerusalemme, di nome Emmaus, e conversavano tra loro di tutto quello che era accaduto.</p>
     <br>
-    <p>Mentre conversavano e discutevano insieme, Gesù in persona si avvicinò e camminava con loro. Ma i loro occhi erano impediti a riconoscerlo.</p>
+    <p>Mentre conversavano e discutevano insieme, Gesu' in persona si avvicino' e camminava con loro. Ma i loro occhi erano impediti a riconoscerlo.</p>
     <br>
-    <p>Ed egli disse loro: «Di che cosa state discutendo tra voi lungo il cammino?». Si fermarono, col volto triste; uno di loro, di nome Clèopa, gli rispose: «Tu solo sei così forestiero in Gerusalemme da non sapere ciò che vi è accaduto in questi giorni?».</p>
+    <p>Ed egli disse loro: «Di che cosa state discutendo tra voi lungo il cammino?». Si fermarono, col volto triste; uno di loro, di nome Cleopa, gli rispose: «Tu solo sei cosi' forestiero in Gerusalemme da non sapere cio' che vi e' accaduto in questi giorni?».</p>
     <br>
-    <p>«Che cosa?» domandò loro. Gli risposero: «Ciò che riguarda Gesù, il Nazareno, che fu profeta potente in opere e in parole, davanti a Dio e a tutto il popolo; come i capi dei sacerdoti e le nostre autorità lo hanno consegnato per farlo condannare a morte e lo hanno crocifisso. Noi speravamo che egli fosse colui che avrebbe liberato Israele; con tutto ciò, sono passati tre giorni da quando queste cose sono accadute.»</p>
+    <p>«Che cosa?» domando' loro. Gli risposero: «Cio' che riguarda Gesu', il Nazareno, che fu profeta potente in opere e in parole, davanti a Dio e a tutto il popolo; come i capi dei sacerdoti e le nostre autorita' lo hanno consegnato per farlo condannare a morte e lo hanno crocifisso. Noi speravamo che egli fosse colui che avrebbe liberato Israele; con tutto cio', sono passati tre giorni da quando queste cose sono accadute.»</p>
     <br>
-    <p>Egli disse loro: «Stolti e lenti di cuore a credere in tutto ciò che hanno detto i profeti! Non bisognava che il Cristo patisse queste sofferenze per entrare nella sua gloria?». E, cominciando da Mosè e da tutti i Profeti, spiegò loro in tutte le Scritture ciò che si riferiva a lui.</p>
+    <p>Egli disse loro: «Stolti e lenti di cuore a credere in tutto cio' che hanno detto i profeti! Non bisognava che il Cristo patisse queste sofferenze per entrare nella sua gloria?». E, cominciando da Mose' e da tutti i Profeti, spiego' loro in tutte le Scritture cio' che si riferiva a lui.</p>
     <br>
-    <p>Quando furono vicini al villaggio dove erano diretti, egli fece come se dovesse andare più lontano. Ma essi insistettero: «Resta con noi, perché si fa sera e il giorno è ormai al tramonto». Egli entrò per rimanere con loro.</p>
+    <p>Quando furono vicini al villaggio dove erano diretti, egli fece come se dovesse andare piu' lontano. Ma essi insistettero: «Resta con noi, perche' si fa sera e il giorno e' ormai al tramonto». Egli entro' per rimanere con loro.</p>
     <br>
-    <p>Quando fu a tavola con loro, prese il pane, recitò la benedizione, lo spezzò e lo diede loro. Allora si aprirono loro gli occhi e lo riconobbero. Ma egli sparì dalla loro vista. Ed essi dissero l'un l'altro: «Non ardeva forse in noi il nostro cuore mentre egli conversava con noi lungo la via, quando ci spiegava le Scritture?».</p>
+    <p>Quando fu a tavola con loro, prese il pane, recito' la benedizione, lo spezzo' e lo diede loro. Allora si aprirono loro gli occhi e lo riconobbero. Ma egli spari' dalla loro vista. Ed essi dissero l'un l'altro: «Non ardeva forse in noi il nostro cuore mentre egli conversava con noi lungo la via, quando ci spiegava le Scritture?».</p>
     <br>
-    <p>Partirono senza indugio e fece ritorno a Gerusalemme, dove trovarono riuniti gli Undici e gli altri che erano con loro, i quali dicevano: «Davvero il Signore è risorto ed è apparso a Simone!». Ed essi narravano ciò che era accaduto lungo la via e come l'avevano riconosciuto nello spezzare il pane.</p>
+    <p>Partirono senza indugio e fece ritorno a Gerusalemme, dove trovarono riuniti gli Undici e gli altri che erano con loro, i quali dicevano: «Davvero il Signore e' risorto ed e' apparso a Simone!». Ed essi narravano cio' che era accaduto lungo la via e come l'avevano riconosciuto nello spezzare il pane.</p>
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Canzone</div>
-    <h3>Emmaus — i discepoli e il camminatore sconosciuto</h3>
+    <div class="card-label">Canzone</div>
+    <h3>Emmaus</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/HoQ7hpJP6bs" allowfullscreen loading="lazy"></iframe>
     </div>
-    <p class="embed-caption">Emmaus — canzone</p>
+    <p class="embed-caption">Emmaus - canzone</p>
   </div>
 
   <div class="domande">
     <div class="domande-title">Domande per riflettere</div>
     <div class="domanda" data-n="1">I discepoli di Emmaus camminavano senza riconoscerlo. Ci sono stati momenti nella tua vita in cui Dio era presente ma tu non te ne sei accorto? Quando te ne sei reso conto?</div>
-    <div class="domanda" data-n="2">"Non ardeva forse in noi il nostro cuore?" — Quando è stata l'ultima volta che hai sentito quella fiamma? Cosa la accende nella tua vita?</div>
-    <div class="domanda" data-n="3">Come vivi la tua fede oggi — è un cammino, una certezza, una domanda aperta?</div>
+    <div class="domanda" data-n="2">"Non ardeva forse in noi il nostro cuore?" Quando e' stata l'ultima volta che hai sentito quella fiamma? Cosa la accende nella tua vita?</div>
+    <div class="domanda" data-n="3">Come vivi la tua fede oggi: e' un cammino, una certezza, una domanda aperta?</div>
   </div>
 </section>
 
-<!-- ═══════════════ SERVIZIO ═══════════════ -->
+<!-- SERVIZIO -->
 <section id="servizio" class="section">
   <div class="section-header">
-    <div class="icon">🤝</div>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M16.5 13c-1.2 0-3.07.34-4.5 1-1.43-.67-3.3-1-4.5-1C5.33 13 1 14.08 1 16.25V19h22v-2.75c0-2.17-4.33-3.25-6.5-3.25zm-4 4.5h-10v-1.25c0-.54 2.56-1.75 5-1.75s5 1.21 5 1.75v1.25zm9 0H14v-1.25c0-.46-.2-.86-.52-1.22.88-.3 1.96-.53 3.02-.53 2.44 0 5 1.21 5 1.75v1.25zM7.5 12c1.93 0 3.5-1.57 3.5-3.5S9.43 5 7.5 5 4 6.57 4 8.5 5.57 12 7.5 12zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 5.5c1.93 0 3.5-1.57 3.5-3.5S18.43 5 16.5 5 13 6.57 13 8.5s1.57 3.5 3.5 3.5zm0-5.5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/></svg>
+    </div>
     <h2>Servizio</h2>
     <p class="subtitle">Non per chi lo fa. Per chi ne ha bisogno.</p>
   </div>
 
   <div class="card">
-    <div class="card-label">📽️ Guarda</div>
+    <div class="card-label">Guarda</div>
     <h3>Un video sul servizio</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/fUXdrl9ch_Q" allowfullscreen loading="lazy"></iframe>
@@ -377,103 +588,115 @@
   </div>
 
   <div class="quote-block">
-    "Il servizio non è un atto eroico. È una scelta quotidiana di guardarsi intorno."
+    "Il servizio non e' un atto eroico. E' una scelta quotidiana di guardarsi intorno."
   </div>
 
   <div class="quote-block">
-    "Servire significa uscire dal proprio centro di gravità e farlo diventare l'altro."
+    "Servire significa uscire dal proprio centro di gravita' e farlo diventare l'altro."
   </div>
 
   <div class="domande">
     <div class="domande-title">Domande per riflettere</div>
-    <div class="domanda" data-n="1">Quando servi, lo fai per gli altri o un po' anche per te stesso? C'è differenza? È un problema?</div>
-    <div class="domanda" data-n="2">C'è un momento in cui il servizio ti ha cambiato — in cui hai ricevuto più di quanto hai dato?</div>
-    <div class="domanda" data-n="3">Qual è la forma di servizio che senti più tua in questo periodo della tua vita?</div>
+    <div class="domanda" data-n="1">Quando servi, lo fai per gli altri o un po' anche per te stesso? C'e' differenza? E' un problema?</div>
+    <div class="domanda" data-n="2">C'e' un momento in cui il servizio ti ha cambiato, in cui hai ricevuto piu' di quanto hai dato?</div>
+    <div class="domanda" data-n="3">Qual e' la forma di servizio che senti piu' tua in questo periodo della tua vita?</div>
   </div>
 </section>
 
-<!-- ═══════════════ COMUNITÀ ═══════════════ -->
+<!-- COMUNITA -->
 <section id="comunita" class="section">
   <div class="section-header">
-    <div class="icon">🔥</div>
-    <h2>Comunità</h2>
-    <p class="subtitle">Il clan, la vita, gli altri. Il "tu" che è fratello.</p>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+    </div>
+    <h2>Comunita</h2>
+    <p class="subtitle">Il clan, la vita, gli altri. Il "tu" che e' fratello.</p>
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Ascolta</div>
-    <h3>Guccini — Canzone per un'amica</h3>
+    <div class="card-label">Ascolta</div>
+    <h3>Francesco Guccini - Canzone per un'amica</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/JB-JlLcOo2k" allowfullscreen loading="lazy"></iframe>
     </div>
-    <p class="embed-caption">Francesco Guccini — sulla comunità e l'amicizia</p>
+    <p class="embed-caption">Francesco Guccini</p>
   </div>
 
   <div class="quote-block">
-    "La comunità non è stare insieme. È scegliersi ogni volta."
+    "La comunita' non e' stare insieme. E' scegliersi ogni volta."
   </div>
 
   <div class="quote-block">
-    "C'è un 'tu' che mi precede. Un fratello che esiste prima che io lo riconosca."
-    <cite>— Martin Buber (rielaborato)</cite>
+    "C'e' un 'tu' che mi precede. Un fratello che esiste prima che io lo riconosca."
+    <cite>Martin Buber (rielaborato)</cite>
   </div>
 
-  <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; font-style: italic;">
-    Due livelli di comunità: quella del <strong style="color: var(--text)">clan</strong> — i compagni di strada scelti — e quella della <strong style="color: var(--text)">vita</strong> — gli altri, la società, chi incontro ogni giorno. Entrambe mi chiedono qualcosa.
+  <p class="body-note">
+    Due livelli di comunita': quella del <strong>clan</strong>, i compagni di strada scelti, e quella della <strong>vita</strong>, gli altri, la societa', chi incontro ogni giorno. Entrambe mi chiedono qualcosa.
   </p>
 
   <div class="domande">
     <div class="domande-title">Domande per riflettere</div>
-    <div class="domanda" data-n="1">Chi è il tuo clan? Non chi è nel clan — ma chi senti davvero come compagno di strada in questo momento?</div>
-    <div class="domanda" data-n="2">Nella comunità più larga — scuola, lavoro, quartiere — c'è un "tu" che senti come fratello o sorella? Come lo vivi?</div>
-    <div class="domanda" data-n="3">Cosa ti chiede la comunità che fai fatica a dare? Cosa ti dà che non ti aspettavi?</div>
+    <div class="domanda" data-n="1">Chi e' il tuo clan? Non chi e' nel clan: chi senti davvero come compagno di strada in questo momento?</div>
+    <div class="domanda" data-n="2">Nella comunita' piu' larga, scuola, lavoro, quartiere, c'e' un "tu" che senti come fratello o sorella? Come lo vivi?</div>
+    <div class="domanda" data-n="3">Cosa ti chiede la comunita' che fai fatica a dare? Cosa ti da' che non ti aspettavi?</div>
   </div>
 </section>
 
-<!-- ═══════════════ IO ═══════════════ -->
+<!-- IO -->
 <section id="io" class="section">
   <div class="section-header">
-    <div class="icon">🧭</div>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+    </div>
     <h2>Ci sono anch'io</h2>
     <p class="subtitle">Il mio essere sulla strada. Dove sono adesso.</p>
   </div>
 
   <div class="card">
-    <div class="card-label">🎵 Ascolta</div>
-    <h3>Lucio Battisti — Io vorrei... non vorrei... ma se vuoi</h3>
+    <div class="card-label">Ascolta</div>
+    <h3>Lucio Battisti - Io vorrei... non vorrei... ma se vuoi</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/tH4TmPUn2vs" allowfullscreen loading="lazy"></iframe>
     </div>
-    <p class="embed-caption">Sul desiderio, la scelta, l'identità</p>
+    <p class="embed-caption">Sul desiderio, la scelta, l'identita'</p>
   </div>
 
   <div class="quote-block">
-    "Essere sulla strada vuol dire non aver ancora deciso dove si arriva. E va bene così."
+    "Essere sulla strada vuol dire non aver ancora deciso dove si arriva. E va bene cosi'."
   </div>
 
   <div class="quote-block">
-    "Ci sono anch'io — non solo come membro del clan, ma come persona. Con i miei passi, i miei pesi, le mie direzioni."
+    "Ci sono anch'io: non solo come membro del clan, ma come persona. Con i miei passi, i miei pesi, le mie direzioni."
   </div>
 
   <div class="domande">
     <div class="domande-title">Domande per riflettere</div>
-    <div class="domanda" data-n="1">Dove senti di essere adesso — nel tuo cammino personale, non quello del clan? Stai avanzando, stai riposando, stai girando in tondo?</div>
-    <div class="domanda" data-n="2">C'è qualcosa di te che stai scoprendo in questo periodo? Qualcosa che stai perdendo?</div>
+    <div class="domanda" data-n="1">Dove senti di essere adesso nel tuo cammino personale, non quello del clan? Stai avanzando, stai riposando, stai girando in tondo?</div>
+    <div class="domanda" data-n="2">C'e' qualcosa di te che stai scoprendo in questo periodo? Qualcosa che stai perdendo?</div>
     <div class="domanda" data-n="3">Cosa porti con te quando finisce questa uscita? Una parola, un'immagine, una domanda.</div>
   </div>
 </section>
 
 <footer>
-  Clan &mdash; Punto della Strada &mdash; 2026
+  Clan Strada Facendo &nbsp;|&nbsp; Punto della Strada &nbsp;|&nbsp; 19 aprile 2026
 </footer>
 
 <script>
+  const tabs = Array.from(document.querySelectorAll('nav button'));
+
   function show(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    tabs.forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showById(id) {
+    const order = ['home', 'strada', 'fede', 'servizio', 'comunita', 'io'];
+    const idx = order.indexOf(id);
+    show(id, tabs[idx]);
   }
 </script>
 

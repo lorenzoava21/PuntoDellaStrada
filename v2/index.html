@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Punto della Strada — Clan Strada Facendo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&family=Roboto:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- SVG Icons -->
+<svg style="display:none">
+  <defs>
+    <symbol id="ic-strada" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M8 7h8l2-2-2-2H8"/><path d="M16 15H8l-2 2 2 2h8"/></symbol>
+    <symbol id="ic-fede" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M6 9h12"/></symbol>
+    <symbol id="ic-servizio" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
+    <symbol id="ic-comunita" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></symbol>
+    <symbol id="ic-io" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="screen-login" class="screen active">
+  <div class="login-container">
+    <div class="login-badge">R / S</div>
+    <h1 class="login-title">Punto della Strada</h1>
+    <p class="login-clan">Clan Strada Facendo</p>
+
+    <div class="login-form">
+      <label class="login-label" for="login-name">Il tuo nome</label>
+      <input type="text" id="login-name" class="login-input" placeholder="Es. Francesco" autocomplete="off" />
+
+      <label class="login-label">Scegli un PIN a 4 cifre</label>
+      <div class="pin-dots" id="pin-dots">
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+        <span class="pin-dot"></span>
+      </div>
+
+      <div class="pin-keypad" id="pin-keypad">
+        <button data-key="1">1</button>
+        <button data-key="2">2</button>
+        <button data-key="3">3</button>
+        <button data-key="4">4</button>
+        <button data-key="5">5</button>
+        <button data-key="6">6</button>
+        <button data-key="7">7</button>
+        <button data-key="8">8</button>
+        <button data-key="9">9</button>
+        <button class="key-empty"></button>
+        <button data-key="0">0</button>
+        <button data-key="del" class="key-del">&larr;</button>
+      </div>
+
+      <div id="login-error" class="login-error"></div>
+      <button id="btn-login" class="btn-primary" disabled>Entra</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="screen-app" class="screen">
+
+  <!-- HERO -->
+  <div class="hero" id="hero">
+    <div class="hero-rs">R / S</div>
+    <h1>Punto della Strada</h1>
+    <div class="clan-name">Clan Strada Facendo</div>
+    <div class="hero-date">Domenica 19 aprile 2026</div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress" id="progress">
+    <div class="progress-track" id="progress-track"></div>
+    <div class="progress-label" id="progress-label"></div>
+  </div>
+
+  <!-- HOME -->
+  <section id="view-home" class="view active">
+    <div class="home-welcome" id="home-welcome"></div>
+
+    <div class="mandato">
+      <h2>Il tuo mandato</h2>
+      <div class="mandato-steps">
+        <div class="mandato-step">
+          <span class="mandato-num">1</span>
+          <p>Trova un posto che rappresenti il tuo <strong>"punto della strada"</strong>: dove ti trovi adesso nel tuo cammino.</p>
+        </div>
+        <div class="mandato-step">
+          <span class="mandato-num">2</span>
+          <p>Fermati lì. Fai una foto del posto e <strong>mandala a uno dei capi (in HD)</strong>.</p>
+        </div>
+        <div class="mandato-step">
+          <span class="mandato-num">3</span>
+          <p>Inizia il percorso: leggi, ascolta, rifletti e rispondi alle domande per ogni area.</p>
+        </div>
+        <div class="mandato-step">
+          <span class="mandato-num">4</span>
+          <p>Per ogni area datti un punteggio su <strong>dove sei oggi</strong> e su <strong>dove vuoi arrivare</strong>.</p>
+        </div>
+        <div class="mandato-step">
+          <span class="mandato-num">5</span>
+          <p>Alla fine, datti <strong>2-3 obiettivi</strong> concreti su cui lavorare e trova i modi per raggiungerli.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-timeline" id="home-timeline"></div>
+
+    <button class="btn-primary btn-start" id="btn-start">Inizia il cammino</button>
+  </section>
+
+  <!-- STEP (dynamic content) -->
+  <section id="view-step" class="view">
+    <div id="step-content"></div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="view-summary" class="view">
+    <div class="summary-header">
+      <h2>Il tuo punto della strada</h2>
+      <p class="subtitle">Ecco una visione d'insieme del tuo cammino.</p>
+    </div>
+
+    <div class="radar-container">
+      <canvas id="radar-chart"></canvas>
+    </div>
+
+    <div class="summary-section">
+      <h3>I tuoi obiettivi</h3>
+      <p class="summary-hint">Datti 2 o 3 obiettivi concreti su cui vuoi lavorare.</p>
+      <div id="objectives-list" class="objectives-list"></div>
+      <button class="btn-add-obj" id="btn-add-obj">+ Aggiungi obiettivo</button>
+    </div>
+
+    <div class="summary-section">
+      <h3>Come ci arrivi?</h3>
+      <p class="summary-hint">Per ogni obiettivo, trova un modo concreto per lavorarci.</p>
+      <div id="actions-list" class="actions-list"></div>
+      <button class="btn-add-obj" id="btn-add-action">+ Aggiungi azione</button>
+    </div>
+
+    <div class="summary-actions">
+      <button class="btn-primary" id="btn-export-pdf">Esporta PDF</button>
+      <button class="btn-secondary" id="btn-back-home">Torna alla Home</button>
+      <button class="btn-logout" id="btn-logout">Esci</button>
+    </div>
+  </section>
+
+  <footer>
+    Clan Strada Facendo &nbsp;|&nbsp; Punto della Strada &nbsp;|&nbsp; 19 aprile 2026
+  </footer>
+</div>
+
+<!-- External libs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+
+<!-- App -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "hosting": {
+    "site": "puntodellastrada-42-2026",
+    "public": "v2",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
+  }
+}

@@ -11,16 +11,12 @@
     :root {
       --bg:        #ffffff;
       --surface:   #f7f5f2;
-      --card:      #ffffff;
       --border:    #e0dcd6;
       --viola:     #462678;
       --viola-dk:  #211638;
-      --viola-md:  #6B478D;
-      --viola-lt:  #AEB0D9;
       --red:       #E74030;
       --text:      #1a1a1a;
       --muted:     #6b6660;
-      --light:     #ECE9E6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +28,7 @@
       min-height: 100vh;
     }
 
-    h1, h2, h3, .tab-label {
+    h1, h2, h3 {
       font-family: 'Roboto Slab', serif;
     }
 
@@ -60,7 +56,6 @@
     .hero h1 {
       font-size: clamp(1.5rem, 5vw, 2.2rem);
       color: var(--viola-dk);
-      letter-spacing: 0.01em;
       margin-bottom: 6px;
     }
 
@@ -78,44 +73,65 @@
       font-size: 0.85rem;
     }
 
-    /* NAV */
-    nav {
-      display: flex;
-      overflow-x: auto;
+    /* PROGRESS BAR */
+    .progress {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 20px 10px;
       background: var(--bg);
-      border-bottom: 2px solid var(--border);
-      scrollbar-width: none;
+      border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
       z-index: 100;
     }
-    nav::-webkit-scrollbar { display: none; }
 
-    nav button {
-      flex: 1 0 auto;
-      padding: 10px 14px;
-      background: none;
-      border: none;
-      border-bottom: 3px solid transparent;
-      color: var(--muted);
-      font-family: 'Roboto Slab', serif;
-      font-size: 0.78rem;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color 0.2s, border-color 0.2s;
+    .progress.visible { display: flex; }
+
+    .progress-track {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 0;
     }
 
-    nav button svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    nav button .tab-label { font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; }
-    nav button:hover { color: var(--text); }
-    nav button.active { color: var(--red); border-bottom-color: var(--red); }
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      padding: 0;
+    }
+
+    .progress-dot.done { background: var(--viola); }
+    .progress-dot.active { background: var(--red); transform: scale(1.3); }
+
+    .progress-line {
+      width: 36px;
+      height: 2px;
+      background: var(--border);
+      transition: background 0.25s;
+    }
+
+    .progress-line.done { background: var(--viola); }
+
+    .progress-label {
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    .progress-label strong {
+      color: var(--red);
+    }
 
     /* SECTIONS */
-    .section { display: none; padding: 28px 20px 56px; max-width: 680px; margin: 0 auto; }
+    .section { display: none; padding: 28px 20px 40px; max-width: 680px; margin: 0 auto; }
     .section.active { display: block; }
 
     /* HOME */
@@ -135,6 +151,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+      margin-bottom: 28px;
     }
 
     @media (max-width: 440px) {
@@ -146,17 +163,10 @@
       border: 1.5px solid var(--border);
       border-radius: 10px;
       padding: 22px 18px;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
-    }
-
-    .home-card:hover {
-      border-color: var(--red);
-      box-shadow: 0 2px 12px rgba(70, 38, 120, 0.08);
     }
 
     .home-card .hc-icon {
@@ -190,15 +200,33 @@
       line-height: 1.5;
     }
 
-    .home-card .hc-cta {
-      font-size: 0.7rem;
-      color: var(--red);
+    .home-card .hc-step {
+      font-size: 0.65rem;
+      color: var(--viola);
       letter-spacing: 0.06em;
       text-transform: uppercase;
       font-family: 'Roboto Slab', serif;
-      font-weight: 600;
-      margin-top: auto;
     }
+
+    .btn-start {
+      display: block;
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Roboto Slab', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: opacity 0.2s;
+    }
+
+    .btn-start:hover { opacity: 0.9; }
 
     /* SECTION HEADER */
     .section-header { margin-bottom: 28px; }
@@ -330,7 +358,6 @@
       padding: 12px 18px;
       margin: 14px 0;
       font-style: italic;
-      color: var(--text);
       font-size: 0.93rem;
       line-height: 1.7;
     }
@@ -374,6 +401,51 @@
 
     .body-note strong { color: var(--text); }
 
+    /* STEP NAV */
+    .step-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .btn-next, .btn-prev, .btn-home {
+      font-family: 'Roboto Slab', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-next {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      margin-left: auto;
+    }
+
+    .btn-prev {
+      background: none;
+      border: 1.5px solid var(--border);
+      color: var(--muted);
+    }
+
+    .btn-home {
+      background: var(--viola);
+      color: #fff;
+      border: none;
+      margin-left: auto;
+    }
+
+    .btn-next:hover, .btn-home:hover { opacity: 0.88; }
+    .btn-prev:hover { border-color: var(--muted); color: var(--text); }
+
     /* FOOTER */
     footer {
       text-align: center;
@@ -382,111 +454,83 @@
       font-size: 0.75rem;
       border-top: 1px solid var(--border);
       font-family: 'Roboto Slab', serif;
-      letter-spacing: 0.03em;
     }
   </style>
 </head>
 <body>
 
-<!-- SVG icon definitions -->
+<!-- SVG icons -->
 <svg style="display:none">
   <defs>
-    <!-- Home -->
-    <symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></symbol>
-    <!-- Strada: segnavia / signpost -->
     <symbol id="ic-strada" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M8 7h8l2-2-2-2H8"/><path d="M16 15H8l-2 2 2 2h8"/></symbol>
-    <!-- Fede: croce -->
     <symbol id="ic-fede" viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M6 9h12"/></symbol>
-    <!-- Servizio: cuore -->
     <symbol id="ic-servizio" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
-    <!-- Comunità: persone -->
     <symbol id="ic-comunita" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></symbol>
-    <!-- Io: bussola -->
     <symbol id="ic-io" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16.24 7.76l-2.12 6.36-6.36 2.12 2.12-6.36z"/></symbol>
   </defs>
 </svg>
 
 <!-- HERO -->
-<div class="hero">
+<div class="hero" id="hero">
   <div class="hero-rs">R / S</div>
   <h1>Punto della Strada</h1>
   <div class="clan-name">Clan Strada Facendo</div>
   <div class="hero-date">Domenica 19 aprile 2026</div>
 </div>
 
-<!-- NAV -->
-<nav>
-  <button class="active" onclick="show('home', this)">
-    <svg><use href="#ic-home"/></svg>
-    <span class="tab-label">Home</span>
-  </button>
-  <button onclick="show('strada', this)">
-    <svg><use href="#ic-strada"/></svg>
-    <span class="tab-label">Strada</span>
-  </button>
-  <button onclick="show('fede', this)">
-    <svg><use href="#ic-fede"/></svg>
-    <span class="tab-label">Fede</span>
-  </button>
-  <button onclick="show('servizio', this)">
-    <svg><use href="#ic-servizio"/></svg>
-    <span class="tab-label">Servizio</span>
-  </button>
-  <button onclick="show('comunita', this)">
-    <svg><use href="#ic-comunita"/></svg>
-    <span class="tab-label">Comunità</span>
-  </button>
-  <button onclick="show('io', this)">
-    <svg><use href="#ic-io"/></svg>
-    <span class="tab-label">Io</span>
-  </button>
-</nav>
+<!-- PROGRESS BAR -->
+<div class="progress" id="progress">
+  <div class="progress-track" id="progress-track"></div>
+  <div class="progress-label" id="progress-label"></div>
+</div>
 
 <!-- HOME -->
 <section id="home" class="section active">
   <div class="home-intro">
-    <p>Un momento per fermarsi, guardare indietro e capire dove stiamo andando. Scegli un tema e lasciati provocare.</p>
+    <p>Un momento per fermarsi, guardare indietro e capire dove stiamo andando. Cinque tappe da percorrere insieme.</p>
   </div>
 
   <div class="home-grid">
-    <div class="home-card" onclick="showById('strada')">
+    <div class="home-card">
+      <div class="hc-step">Passo 1</div>
       <div class="hc-icon"><svg><use href="#ic-strada"/></svg></div>
       <h3>La Strada</h3>
       <p>Camminare è già una risposta. Gaber, Nomadi, Modena City Ramblers.</p>
-      <span class="hc-cta">Esplora</span>
     </div>
 
-    <div class="home-card" onclick="showById('fede')">
+    <div class="home-card">
+      <div class="hc-step">Passo 2</div>
       <div class="hc-icon"><svg><use href="#ic-fede"/></svg></div>
       <h3>Fede</h3>
       <p>Il Vangelo di Emmaus. Due discepoli in cammino senza riconoscerlo.</p>
-      <span class="hc-cta">Esplora</span>
     </div>
 
-    <div class="home-card" onclick="showById('servizio')">
+    <div class="home-card">
+      <div class="hc-step">Passo 3</div>
       <div class="hc-icon"><svg><use href="#ic-servizio"/></svg></div>
       <h3>Servizio</h3>
       <p>Non per chi lo fa. Per chi ne ha bisogno. Video e riflessioni.</p>
-      <span class="hc-cta">Esplora</span>
     </div>
 
-    <div class="home-card" onclick="showById('comunita')">
+    <div class="home-card">
+      <div class="hc-step">Passo 4</div>
       <div class="hc-icon"><svg><use href="#ic-comunita"/></svg></div>
       <h3>Comunità</h3>
       <p>Il clan, la vita, gli altri. Il "tu" che è fratello.</p>
-      <span class="hc-cta">Esplora</span>
     </div>
 
-    <div class="home-card" onclick="showById('io')">
+    <div class="home-card">
+      <div class="hc-step">Passo 5</div>
       <div class="hc-icon"><svg><use href="#ic-io"/></svg></div>
       <h3>Ci sono anch'io</h3>
       <p>Il mio essere sulla strada. Dove sono adesso, cosa porto con me.</p>
-      <span class="hc-cta">Esplora</span>
     </div>
   </div>
+
+  <button class="btn-start" onclick="goStep(0)">Inizia il cammino</button>
 </section>
 
-<!-- STRADA -->
+<!-- 1. STRADA -->
 <section id="strada" class="section">
   <div class="section-header">
     <div class="icon-wrap"><svg><use href="#ic-strada"/></svg></div>
@@ -496,9 +540,9 @@
 
   <div class="card">
     <div class="card-label">Ascolta</div>
-    <h3>Giorgio Gaber - La Strada</h3>
+    <h3>Giorgio Gaber - C'è solo la strada</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/qXk_b_D-Z7A" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/c9AHgZnYAn4" allowfullscreen loading="lazy"></iframe>
     </div>
     <p class="embed-caption">Giorgio Gaber</p>
   </div>
@@ -507,16 +551,16 @@
     <div class="card-label">Ascolta</div>
     <h3>Nomadi - Cammina Cammina</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/9ViJ0DTPW_E" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/yTeintNBOGc" allowfullscreen loading="lazy"></iframe>
     </div>
     <p class="embed-caption">Nomadi</p>
   </div>
 
   <div class="card">
     <div class="card-label">Ascolta</div>
-    <h3>Modena City Ramblers</h3>
+    <h3>Modena City Ramblers - La Strada</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/KCfmTvDIi1Y" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/shjw39-2hNc" allowfullscreen loading="lazy"></iframe>
     </div>
     <p class="embed-caption">Modena City Ramblers</p>
   </div>
@@ -531,9 +575,13 @@
     <div class="domanda" data-n="2">C'è qualcosa che ti ha fermato ultimamente: una fatica, un dubbio, una pausa? Come ti ha cambiato?</div>
     <div class="domanda" data-n="3">La strada dello scoutismo è anche partenza e inizio: cosa stai iniziando?</div>
   </div>
+
+  <div class="step-nav">
+    <button class="btn-next" onclick="goStep(1)">Avanti: Fede &rarr;</button>
+  </div>
 </section>
 
-<!-- FEDE -->
+<!-- 2. FEDE -->
 <section id="fede" class="section">
   <div class="section-header">
     <div class="icon-wrap"><svg><use href="#ic-fede"/></svg></div>
@@ -562,11 +610,11 @@
 
   <div class="card">
     <div class="card-label">Canzone</div>
-    <h3>Emmaus</h3>
+    <h3>Sulla via di Emmaus</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/HoQ7hpJP6bs" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/ScbfKfIcdTs" allowfullscreen loading="lazy"></iframe>
     </div>
-    <p class="embed-caption">Emmaus</p>
+    <p class="embed-caption">Sulla via di Emmaus</p>
   </div>
 
   <div class="domande">
@@ -575,9 +623,14 @@
     <div class="domanda" data-n="2">"Non ardeva forse in noi il nostro cuore?" Quando è stata l'ultima volta che hai sentito quella fiamma? Cosa la accende nella tua vita?</div>
     <div class="domanda" data-n="3">Come vivi la tua fede oggi: è un cammino, una certezza, una domanda aperta?</div>
   </div>
+
+  <div class="step-nav">
+    <button class="btn-prev" onclick="goStep(0)">&larr; Strada</button>
+    <button class="btn-next" onclick="goStep(2)">Avanti: Servizio &rarr;</button>
+  </div>
 </section>
 
-<!-- SERVIZIO -->
+<!-- 3. SERVIZIO -->
 <section id="servizio" class="section">
   <div class="section-header">
     <div class="icon-wrap"><svg><use href="#ic-servizio"/></svg></div>
@@ -587,7 +640,15 @@
 
   <div class="card">
     <div class="card-label">Guarda</div>
-    <h3>Un video sul servizio</h3>
+    <h3>L'unione fa la forza</h3>
+    <div class="embed-wrap">
+      <iframe src="https://www.youtube.com/embed/KH-qIwAGQNk" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Guarda</div>
+    <h3>Lavoro di squadra</h3>
     <div class="embed-wrap">
       <iframe src="https://www.youtube.com/embed/fUXdrl9ch_Q" allowfullscreen loading="lazy"></iframe>
     </div>
@@ -607,9 +668,14 @@
     <div class="domanda" data-n="2">C'è un momento in cui il servizio ti ha cambiato, in cui hai ricevuto più di quanto hai dato?</div>
     <div class="domanda" data-n="3">Qual è la forma di servizio che senti più tua in questo periodo della tua vita?</div>
   </div>
+
+  <div class="step-nav">
+    <button class="btn-prev" onclick="goStep(1)">&larr; Fede</button>
+    <button class="btn-next" onclick="goStep(3)">Avanti: Comunità &rarr;</button>
+  </div>
 </section>
 
-<!-- COMUNITÀ -->
+<!-- 4. COMUNITÀ -->
 <section id="comunita" class="section">
   <div class="section-header">
     <div class="icon-wrap"><svg><use href="#ic-comunita"/></svg></div>
@@ -621,7 +687,7 @@
     <div class="card-label">Ascolta</div>
     <h3>Francesco Guccini - Canzone per un'amica</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/JB-JlLcOo2k" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/4H0fPsORIAo" allowfullscreen loading="lazy"></iframe>
     </div>
     <p class="embed-caption">Francesco Guccini</p>
   </div>
@@ -645,9 +711,14 @@
     <div class="domanda" data-n="2">Nella comunità più larga, scuola, lavoro, quartiere, c'è un "tu" che senti come fratello o sorella? Come lo vivi?</div>
     <div class="domanda" data-n="3">Cosa ti chiede la comunità che fai fatica a dare? Cosa ti dà che non ti aspettavi?</div>
   </div>
+
+  <div class="step-nav">
+    <button class="btn-prev" onclick="goStep(2)">&larr; Servizio</button>
+    <button class="btn-next" onclick="goStep(4)">Avanti: Ci sono anch'io &rarr;</button>
+  </div>
 </section>
 
-<!-- IO -->
+<!-- 5. IO -->
 <section id="io" class="section">
   <div class="section-header">
     <div class="icon-wrap"><svg><use href="#ic-io"/></svg></div>
@@ -657,11 +728,11 @@
 
   <div class="card">
     <div class="card-label">Ascolta</div>
-    <h3>Lucio Battisti - Io vorrei... non vorrei... ma se vuoi</h3>
+    <h3>Max Pezzali / 883 - Ci sono anch'io</h3>
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/tH4TmPUn2vs" allowfullscreen loading="lazy"></iframe>
+      <iframe src="https://www.youtube.com/embed/ngrJCikQrEM" allowfullscreen loading="lazy"></iframe>
     </div>
-    <p class="embed-caption">Sul desiderio, la scelta, l'identità</p>
+    <p class="embed-caption">Max Pezzali / 883</p>
   </div>
 
   <div class="quote-block">
@@ -678,6 +749,11 @@
     <div class="domanda" data-n="2">C'è qualcosa di te che stai scoprendo in questo periodo? Qualcosa che stai perdendo?</div>
     <div class="domanda" data-n="3">Cosa porti con te quando finisce questa uscita? Una parola, un'immagine, una domanda.</div>
   </div>
+
+  <div class="step-nav">
+    <button class="btn-prev" onclick="goStep(3)">&larr; Comunità</button>
+    <button class="btn-home" onclick="goHome()">Torna alla Home</button>
+  </div>
 </section>
 
 <footer>
@@ -685,20 +761,48 @@
 </footer>
 
 <script>
-  const tabs = Array.from(document.querySelectorAll('nav button'));
+  const steps = ['strada', 'fede', 'servizio', 'comunita', 'io'];
+  const stepNames = ['La Strada', 'Fede', 'Servizio', 'Comunità', 'Ci sono anch\'io'];
+  const progressEl = document.getElementById('progress');
+  const trackEl = document.getElementById('progress-track');
+  const labelEl = document.getElementById('progress-label');
+  let current = -1;
 
-  function show(id, btn) {
+  function buildProgress(idx) {
+    trackEl.innerHTML = '';
+    for (let i = 0; i < steps.length; i++) {
+      if (i > 0) {
+        const line = document.createElement('div');
+        line.className = 'progress-line' + (i <= idx ? ' done' : '');
+        trackEl.appendChild(line);
+      }
+      const dot = document.createElement('button');
+      dot.className = 'progress-dot';
+      if (i < idx) dot.classList.add('done');
+      if (i === idx) dot.classList.add('active');
+      dot.onclick = () => goStep(i);
+      trackEl.appendChild(dot);
+    }
+    labelEl.innerHTML = 'Passo <strong>' + (idx + 1) + '</strong> di 5 &mdash; ' + stepNames[idx];
+  }
+
+  function goStep(idx) {
+    current = idx;
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    tabs.forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
+    document.getElementById(steps[idx]).classList.add('active');
+    progressEl.classList.add('visible');
+    document.getElementById('hero').style.display = 'none';
+    buildProgress(idx);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function showById(id) {
-    const order = ['home', 'strada', 'fede', 'servizio', 'comunita', 'io'];
-    const idx = order.indexOf(id);
-    show(id, tabs[idx]);
+  function goHome() {
+    current = -1;
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+    progressEl.classList.remove('visible');
+    document.getElementById('hero').style.display = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
 

@@ -1,4 +1,4 @@
-import { AREAS } from './data.js?v=3';
+import { AREAS } from './data.js?v=4';
 
 // ─── Firebase Setup ───
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
@@ -586,8 +586,7 @@ function setupSummaryButtons() {
     debounceSave();
   });
 
-  $('#btn-export-pdf').addEventListener('click', async () => {
-    await exportPDF();
+  $('#btn-export-pdf').addEventListener('click', () => {
     showView('feedback');
   });
 
@@ -643,6 +642,9 @@ function setupFeedbackButtons() {
     userData.feedback.comment = e.target.value;
     debounceSave();
   });
+
+  // PDF download
+  $('#btn-fb-pdf').addEventListener('click', () => exportPDF());
 
   // Navigation
   $('#btn-fb-home').addEventListener('click', () => showView('home'));

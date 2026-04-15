@@ -895,6 +895,73 @@ footer {
   font-family: 'Roboto Slab', serif;
 }
 
+/* ====== DOMANDE NOTA ====== */
+.domande-nota {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: 0 0 18px 0;
+  padding: 10px 14px;
+  background: var(--viola-light);
+  border-radius: 8px;
+  border-left: 3px solid var(--viola);
+  line-height: 1.5;
+}
+.domande-nota strong {
+  color: var(--viola-dk);
+}
+
+/* ====== FEEDBACK FORM ====== */
+.feedback-form {
+  margin-top: 28px;
+  padding: 22px;
+  background: var(--surface);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+.feedback-form h3 {
+  font-family: 'Roboto Slab', serif;
+  color: var(--viola-dk);
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+}
+.feedback-stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.feedback-star {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--border);
+  cursor: pointer;
+  transition: color 0.2s, transform 0.15s;
+  padding: 0 2px;
+}
+.feedback-star:hover,
+.feedback-star.active {
+  color: #f5a623;
+  transform: scale(1.15);
+}
+.feedback-comment {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+  resize: vertical;
+  background: #fff;
+}
+.feedback-comment:focus {
+  outline: none;
+  border-color: var(--viola);
+  box-shadow: 0 0 0 2px rgba(70,38,120,0.12);
+}
+
 /* ====== RESPONSIVE ====== */
 @media (max-width: 440px) {
   .tl-icon-circle { width: 40px; height: 40px; }

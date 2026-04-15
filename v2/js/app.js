@@ -164,7 +164,8 @@ function showView(name) {
     $('#progress').classList.add('visible');
   } else if (name === 'summary') {
     $('#hero').style.display = 'none';
-    $('#progress').classList.remove('visible');
+    $('#progress').classList.add('visible');
+    buildSummaryProgress();
     renderSummary();
   }
 
@@ -199,6 +200,44 @@ function buildProgress(idx) {
   });
 
   label.innerHTML = `Passo <strong>${idx + 1}</strong> di 5 &mdash; ${AREAS[idx].title}`;
+}
+
+function buildSummaryProgress() {
+  const track = $('#progress-track');
+  const label = $('#progress-label');
+  track.innerHTML = '';
+
+  // Home dot
+  const homeDot = document.createElement('button');
+  homeDot.className = 'progress-dot done';
+  homeDot.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>`;
+  homeDot.addEventListener('click', () => showView('home'));
+  track.appendChild(homeDot);
+
+  // Section dots
+  AREAS.forEach((area, i) => {
+    const line = document.createElement('div');
+    line.className = 'progress-line done';
+    track.appendChild(line);
+
+    const dot = document.createElement('button');
+    dot.className = 'progress-dot done';
+    dot.innerHTML = `<svg><use href="#${area.icon}"/></svg>`;
+    dot.addEventListener('click', () => goStep(i));
+    track.appendChild(dot);
+  });
+
+  // Summary dot (active)
+  const sumLine = document.createElement('div');
+  sumLine.className = 'progress-line done';
+  track.appendChild(sumLine);
+
+  const sumDot = document.createElement('button');
+  sumDot.className = 'progress-dot active';
+  sumDot.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`;
+  track.appendChild(sumDot);
+
+  label.innerHTML = `<strong>Riepilogo</strong>`;
 }
 
 // ═══════════════════════════════════════════
@@ -277,6 +316,7 @@ function renderStep(idx) {
 
   // Questions
   html += `<div class="domande"><div class="domande-title">Domande per riflettere</div>`;
+  html += `<p class="domande-nota">Nel rispondere, confrontati con la <strong>Promessa</strong>, il <strong>Motto</strong>, la <strong>Carta di Clan</strong> e con il <strong>Vangelo</strong>.</p>`;
   area.questions.forEach((q, qi) => {
     const savedAnswer = areaData.answers?.[`q${qi}`] || '';
     html += `
@@ -304,7 +344,7 @@ function renderStep(idx) {
             class="score-slider score-current" data-area="${area.id}" data-field="doveSono" />
           <span class="score-value current" id="sv-${area.id}-current">${doveSono}</span>
         </div>
-        <div class="score-labels"><span>1 — Lontano</span><span>10 — Sono arrivato</span></div>
+        <div class="score-labels"><span>1 — Lontano</span><span>10 — Raggiunto</span></div>
       </div>
 
       <div class="score-item">
@@ -314,7 +354,7 @@ function renderStep(idx) {
             class="score-slider score-goal" data-area="${area.id}" data-field="doveVado" />
           <span class="score-value goal" id="sv-${area.id}-goal">${doveVado}</span>
         </div>
-        <div class="score-labels"><span>1 — Non prioritario</span><span>10 — Il mio obiettivo</span></div>
+        <div class="score-labels"><span>1 — Lontano</span><span>10 — Raggiunto</span></div>
       </div>
     </div>
   `;
@@ -515,7 +555,12 @@ function setupSummaryButtons() {
     debounceSave();
   });
 
-  $('#btn-export-pdf').addEventListener('click', exportPDF);
+  $('#btn-export-pdf').addEventListener('click', async () => {
+    await exportPDF();
+    showFeedbackForm();
+  });
+
+  $('#btn-back-io').addEventListener('click', () => goStep(AREAS.length - 1));
 
   $('#btn-back-home').addEventListener('click', () => showView('home'));
 
@@ -529,6 +574,47 @@ function setupSummaryButtons() {
     $('#btn-login').textContent = 'Entra';
     $('#screen-app').classList.remove('active');
     $('#screen-login').classList.add('active');
+  });
+}
+
+// ═══════════════════════════════════════════
+// FEEDBACK FORM
+// ═══════════════════════════════════════════
+function showFeedbackForm() {
+  const container = $('#feedback-form');
+  if (!container) return;
+  container.style.display = '';
+  container.classList.add('visible');
+
+  // Restore saved feedback if any
+  const saved = userData.feedback || {};
+  if (saved.rating) {
+    container.querySelectorAll('.feedback-star').forEach(s => {
+      s.classList.toggle('active', parseInt(s.dataset.val) <= saved.rating);
+    });
+  }
+  if (saved.comment) {
+    container.querySelector('#feedback-comment').value = saved.comment;
+  }
+
+  // Star rating
+  container.querySelectorAll('.feedback-star').forEach(star => {
+    star.addEventListener('click', (e) => {
+      const val = parseInt(e.target.closest('.feedback-star').dataset.val);
+      container.querySelectorAll('.feedback-star').forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+      });
+      if (!userData.feedback) userData.feedback = {};
+      userData.feedback.rating = val;
+      debounceSave();
+    });
+  });
+
+  // Comment
+  container.querySelector('#feedback-comment').addEventListener('input', (e) => {
+    if (!userData.feedback) userData.feedback = {};
+    userData.feedback.comment = e.target.value;
+    debounceSave();
   });
 }
 

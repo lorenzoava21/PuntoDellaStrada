@@ -146,8 +146,22 @@
 
     <div class="summary-actions">
       <button class="btn-primary" id="btn-export-pdf">Esporta PDF</button>
+      <button class="btn-prev" id="btn-back-io">&larr; Io</button>
       <button class="btn-secondary" id="btn-back-home">Torna alla Home</button>
       <button class="btn-logout" id="btn-logout">Esci</button>
+    </div>
+
+    <!-- Feedback form (hidden until PDF exported) -->
+    <div id="feedback-form" class="feedback-form" style="display:none">
+      <h3>Come hai vissuto questo punto della strada?</h3>
+      <div class="feedback-stars">
+        <button class="feedback-star" data-val="1">&#9733;</button>
+        <button class="feedback-star" data-val="2">&#9733;</button>
+        <button class="feedback-star" data-val="3">&#9733;</button>
+        <button class="feedback-star" data-val="4">&#9733;</button>
+        <button class="feedback-star" data-val="5">&#9733;</button>
+      </div>
+      <textarea id="feedback-comment" class="feedback-comment" rows="3" placeholder="Commenti o suggerimenti..."></textarea>
     </div>
   </section>
 

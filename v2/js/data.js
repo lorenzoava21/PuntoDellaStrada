@@ -14,9 +14,9 @@ export const AREAS = [
     ],
     gospel: null,
     questions: [
-      'Che cosa intendi quando dici "sono sulla strada"? Dove senti di essere adesso nel tuo cammino di Rover/Scolta?',
-      'C\'è qualcosa che ti ha fermato ultimamente: una fatica, un dubbio, una pausa? Come ti ha cambiato?',
-      'La strada dello scoutismo è anche partenza e inizio: cosa stai iniziando?'
+      'Che cosa intendi quando dici "sono sulla strada"?',
+      'Dove pensi di essere adesso nel tuo cammino di Rover/Scolta?',
+      'C\'è qualcosa che ti ha fermato ultimamente: una fatica, un dubbio, una pausa? Come l\'hai affrontata e come ti ha cambiato?'
     ]
   },
   {
@@ -42,9 +42,11 @@ export const AREAS = [
       ]
     },
     questions: [
-      'I discepoli di Emmaus camminavano senza riconoscerlo. Ci sono stati momenti nella tua vita in cui Dio era presente ma tu non te ne sei accorto? Quando te ne sei reso conto?',
-      '"Non ardeva forse in noi il nostro cuore?" Quando è stata l\'ultima volta che hai sentito quella fiamma? Cosa la accende nella tua vita?',
-      'Come vivi la tua fede oggi: è un cammino, una certezza, una domanda aperta?'
+      'Rileggi il brano lentamente, nota i dettagli, nomi, luoghi, emozioni, dialoghi. Quale parola o frase ti colpisce di più?',
+      'In cosa ti senti simile ai discepoli di Emmaus?',
+      '"Non ardeva forse in noi il nostro cuore?" Quando è stata l\'ultima volta che hai sentito ardere il cuore? Cosa fa ardere il cuore nella tua vita?',
+      'Sento che il cuore arde quando ascolto il Signore?',
+      'Cerco attivamente un momento per coltivare questa relazione?'
     ]
   },
   {
@@ -54,15 +56,16 @@ export const AREAS = [
     icon: 'ic-servizio',
     stimuli: [
       { type: 'video', label: 'Guarda', title: 'L\'unione fa la forza', url: 'https://www.youtube.com/embed/KH-qIwAGQNk' },
-      { type: 'video', label: 'Guarda', title: 'Lavoro di squadra', url: 'https://www.youtube.com/embed/fUXdrl9ch_Q' }
+      { type: 'video', label: 'Guarda', title: 'Lavoro di squadra', url: 'https://www.youtube.com/embed/fUXdrl9ch_Q' },
+      { type: 'video', label: 'Ascolta', title: 'Gen Verde — Servire è regnare', url: 'https://www.youtube.com/embed/nJYq0OsOho0' }
     ],
     quotes: [
       { text: 'Il servizio non è un atto eroico. È una scelta quotidiana di guardarsi intorno.' }
     ],
     gospel: null,
     questions: [
-      'Quando fai servizio, lo fai per gli altri o un po\' anche per te stesso? C\'è differenza? È un problema?',
-      'C\'è un momento in cui il servizio ti ha cambiato, in cui hai ricevuto più di quanto hai dato?',
+      'Quando fai servizio, lo fai per gli altri o anche per te stesso? C\'è differenza?',
+      'C\'è un momento in cui il servizio ti ha cambiato, in cui hai ricevuto più di quanto hai dato? Che cosa hai dato di te e cosa hai ricevuto in cambio?',
       'Qual è la forma di servizio che senti più tua in questo periodo della tua vita?'
     ]
   },
@@ -80,9 +83,10 @@ export const AREAS = [
     bodyNote: 'Due livelli di comunità: quella del <strong>clan</strong>, i compagni di strada scelti, e quella della <strong>vita</strong>, gli altri, la società, chi incontro ogni giorno. Entrambe mi chiedono qualcosa.',
     gospel: null,
     questions: [
-      'Chi è il tuo clan? Non chi è nel clan: chi senti davvero come compagno di strada in questo momento?',
-      'Nella comunità più larga, scuola, lavoro, paese, c\'è un "tu" che senti come fratello o sorella? Come lo vivi?',
-      'Cosa ti chiede la comunità che fai fatica a dare? Cosa ti dà che non ti aspettavi?'
+      'In clan, chi senti davvero come compagno di strada in questo momento? Perché gli altri non li senti tali?',
+      'Nella comunità più larga (scuola, lavoro, paese, ...) c\'è un "tu" che senti come fratello o sorella? Come lo vivi?',
+      'Come ti relazioni nei confronti di quello che sta succedendo nel resto del mondo? Ti senti parte di questa comunità?',
+      'Quali sono le fatiche che senti nel far parte di queste comunità? Che cosa ti danno che non ti aspettavi?'
     ]
   },
   {
@@ -92,16 +96,17 @@ export const AREAS = [
     icon: 'ic-io',
     stimuli: [
       { type: 'video', label: 'Ascolta', title: 'Max Pezzali / 883 — Ci sono anch\'io', url: 'https://www.youtube.com/embed/ngrJCikQrEM' },
-      { type: 'video', label: 'Ascolta', title: 'Brunori Sas — Fuori dal mondo', url: 'https://www.youtube.com/embed/3gaRTAO8Zyk' }
+      { type: 'video', label: 'Guarda', title: 'Goditi potere e bellezza della tua gioventù — The Big Kahuna', url: 'https://www.youtube.com/embed/gqQPOYZo6Fs' },
+      { type: 'video', label: 'Ascolta', title: 'Lucio Corsi — Cosa faremo da grandi', url: 'https://www.youtube.com/embed/d-dePzDnJT0' }
     ],
     quotes: [
       { text: 'La felicità non è una destinazione, è un modo di viaggiare.' }
     ],
     gospel: null,
     questions: [
-      'Dove senti di essere adesso nel tuo cammino personale, non quello del clan? Stai avanzando, stai riposando, stai girando in tondo?',
+      'Dove senti di essere adesso nel tuo cammino di vita?',
       'C\'è qualcosa di te che stai scoprendo in questo periodo? Qualcosa che stai perdendo?',
-      'Cosa porti con te quando finisce questa uscita? Una parola, un\'immagine, una domanda.'
+      'Che sogno hai per la tua vita?'
     ]
   }
 ];

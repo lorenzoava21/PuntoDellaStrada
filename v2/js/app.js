@@ -23,6 +23,7 @@ let currentStep = -1;
 let pin = '';
 let radarChart = null;
 let saveTimeout = null;
+let reachedSummary = false;  // once true, full progress bar stays
 
 // ─── DOM refs ───
 const $ = (sel) => document.querySelector(sel);
@@ -33,7 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupLogin();
   setupHomeTimeline();
   setupSummaryButtons();
+  setupFeedbackButtons();
   addSaveIndicator();
+  preloadLogo();
 });
 
 // ─── Save indicator ───
@@ -165,8 +168,14 @@ function showView(name) {
   } else if (name === 'summary') {
     $('#hero').style.display = 'none';
     $('#progress').classList.add('visible');
-    buildSummaryProgress();
+    reachedSummary = true;
+    buildFullProgress('summary');
     renderSummary();
+  } else if (name === 'feedback') {
+    $('#hero').style.display = 'none';
+    $('#progress').classList.add('visible');
+    buildFullProgress('feedback');
+    renderFeedback();
   }
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -176,7 +185,11 @@ function goStep(idx) {
   currentStep = idx;
   renderStep(idx);
   showView('step');
-  buildProgress(idx);
+  if (reachedSummary) {
+    buildFullProgress(idx);
+  } else {
+    buildProgress(idx);
+  }
 }
 
 function buildProgress(idx) {
@@ -202,10 +215,16 @@ function buildProgress(idx) {
   label.innerHTML = `Passo <strong>${idx + 1}</strong> di 5 &mdash; ${AREAS[idx].title}`;
 }
 
-function buildSummaryProgress() {
+// Full progress bar: Home + 5 sections + Summary — highlights current
+// `active` can be a section index (0-4), 'summary', or 'feedback'
+function buildFullProgress(active) {
   const track = $('#progress-track');
   const label = $('#progress-label');
   track.innerHTML = '';
+
+  const isSectionActive = typeof active === 'number';
+  const isSummary = active === 'summary';
+  const isFeedback = active === 'feedback';
 
   // Home dot
   const homeDot = document.createElement('button');
@@ -221,23 +240,36 @@ function buildSummaryProgress() {
     track.appendChild(line);
 
     const dot = document.createElement('button');
-    dot.className = 'progress-dot done';
+    dot.className = 'progress-dot';
+    if (isSectionActive && i === active) {
+      dot.classList.add('active');
+    } else {
+      dot.classList.add('done');
+    }
     dot.innerHTML = `<svg><use href="#${area.icon}"/></svg>`;
     dot.addEventListener('click', () => goStep(i));
     track.appendChild(dot);
   });
 
-  // Summary dot (active)
+  // Summary dot
   const sumLine = document.createElement('div');
   sumLine.className = 'progress-line done';
   track.appendChild(sumLine);
 
   const sumDot = document.createElement('button');
-  sumDot.className = 'progress-dot active';
+  sumDot.className = 'progress-dot' + (isSummary ? ' active' : ' done');
   sumDot.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`;
+  sumDot.addEventListener('click', () => showView('summary'));
   track.appendChild(sumDot);
 
-  label.innerHTML = `<strong>Riepilogo</strong>`;
+  // Label
+  if (isSectionActive) {
+    label.innerHTML = `Passo <strong>${active + 1}</strong> di 5 &mdash; ${AREAS[active].title}`;
+  } else if (isSummary) {
+    label.innerHTML = `<strong>Riepilogo</strong>`;
+  } else if (isFeedback) {
+    label.innerHTML = `<strong>Feedback</strong>`;
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -316,7 +348,6 @@ function renderStep(idx) {
 
   // Questions
   html += `<div class="domande"><div class="domande-title">Domande per riflettere</div>`;
-  html += `<p class="domande-nota">Nel rispondere, confrontati con la <strong>Promessa</strong>, il <strong>Motto</strong>, la <strong>Carta di Clan</strong> e con il <strong>Vangelo</strong>.</p>`;
   area.questions.forEach((q, qi) => {
     const savedAnswer = areaData.answers?.[`q${qi}`] || '';
     html += `
@@ -557,7 +588,7 @@ function setupSummaryButtons() {
 
   $('#btn-export-pdf').addEventListener('click', async () => {
     await exportPDF();
-    showFeedbackForm();
+    showView('feedback');
   });
 
   $('#btn-back-io').addEventListener('click', () => goStep(AREAS.length - 1));
@@ -568,6 +599,7 @@ function setupSummaryButtons() {
     currentUser = null;
     userData = {};
     pin = '';
+    reachedSummary = false;
     $$('#pin-dots .pin-dot').forEach(d => d.classList.remove('filled'));
     $('#login-name').value = '';
     $('#login-error').textContent = '';
@@ -578,30 +610,25 @@ function setupSummaryButtons() {
 }
 
 // ═══════════════════════════════════════════
-// FEEDBACK FORM
+// FEEDBACK VIEW
 // ═══════════════════════════════════════════
-function showFeedbackForm() {
-  const container = $('#feedback-form');
-  if (!container) return;
-  container.style.display = '';
-  container.classList.add('visible');
-
-  // Restore saved feedback if any
+function renderFeedback() {
+  const container = $('#feedback-content');
   const saved = userData.feedback || {};
-  if (saved.rating) {
-    container.querySelectorAll('.feedback-star').forEach(s => {
-      s.classList.toggle('active', parseInt(s.dataset.val) <= saved.rating);
-    });
-  }
-  if (saved.comment) {
-    container.querySelector('#feedback-comment').value = saved.comment;
-  }
 
+  // Restore saved state
+  container.querySelectorAll('.feedback-star').forEach(s => {
+    s.classList.toggle('active', saved.rating && parseInt(s.dataset.val) <= saved.rating);
+  });
+  $('#feedback-comment').value = saved.comment || '';
+}
+
+function setupFeedbackButtons() {
   // Star rating
-  container.querySelectorAll('.feedback-star').forEach(star => {
+  $$('#view-feedback .feedback-star').forEach(star => {
     star.addEventListener('click', (e) => {
       const val = parseInt(e.target.closest('.feedback-star').dataset.val);
-      container.querySelectorAll('.feedback-star').forEach(s => {
+      $$('#view-feedback .feedback-star').forEach(s => {
         s.classList.toggle('active', parseInt(s.dataset.val) <= val);
       });
       if (!userData.feedback) userData.feedback = {};
@@ -611,11 +638,45 @@ function showFeedbackForm() {
   });
 
   // Comment
-  container.querySelector('#feedback-comment').addEventListener('input', (e) => {
+  $('#feedback-comment').addEventListener('input', (e) => {
     if (!userData.feedback) userData.feedback = {};
     userData.feedback.comment = e.target.value;
     debounceSave();
   });
+
+  // Navigation
+  $('#btn-fb-home').addEventListener('click', () => showView('home'));
+  $('#btn-fb-logout').addEventListener('click', () => {
+    currentUser = null;
+    userData = {};
+    pin = '';
+    reachedSummary = false;
+    $$('#pin-dots .pin-dot').forEach(d => d.classList.remove('filled'));
+    $('#login-name').value = '';
+    $('#login-error').textContent = '';
+    $('#btn-login').textContent = 'Entra';
+    $('#screen-app').classList.remove('active');
+    $('#screen-login').classList.add('active');
+  });
+}
+
+// ═══════════════════════════════════════════
+// LOGO PRELOAD
+// ═══════════════════════════════════════════
+let logoDataUrl = null;
+
+function preloadLogo() {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    logoDataUrl = canvas.toDataURL('image/png');
+  };
+  img.src = 'assets/logo.png';
 }
 
 // ═══════════════════════════════════════════
@@ -630,102 +691,180 @@ async function exportPDF() {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
     const pageW = 210;
+    const pageH = 297;
     const margin = 20;
     const contentW = pageW - margin * 2;
     let y = 0;
 
+    // Helper: draw page footer
+    function drawFooter(pg) {
+      pdf.setFontSize(7);
+      pdf.setTextColor(160, 160, 160);
+      pdf.text('Punto della Strada — Clan Strada Facendo — 19 aprile 2026', pageW / 2, pageH - 10, { align: 'center' });
+    }
+
+    // Helper: thin accent line
+    function drawAccentLine(yPos) {
+      pdf.setDrawColor(70, 38, 120);
+      pdf.setLineWidth(0.5);
+      pdf.line(margin, yPos, pageW - margin, yPos);
+    }
+
     // ── Cover page ──
-    y = 60;
+    // Subtle top bar
+    pdf.setFillColor(70, 38, 120);
+    pdf.rect(0, 0, pageW, 3, 'F');
+
+    y = 55;
     pdf.setFont('helvetica', 'bold');
-    pdf.setFontSize(28);
+    pdf.setFontSize(32);
     pdf.setTextColor(70, 38, 120);
     pdf.text('Punto della Strada', pageW / 2, y, { align: 'center' });
-    y += 14;
+
+    y += 12;
     pdf.setFontSize(14);
     pdf.setTextColor(231, 64, 48);
     pdf.text('R / S', pageW / 2, y, { align: 'center' });
-    y += 20;
+
+    y += 16;
+    drawAccentLine(y);
+    y += 12;
+
+    pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(12);
     pdf.setTextColor(100, 100, 100);
     pdf.text('Clan Strada Facendo', pageW / 2, y, { align: 'center' });
-    y += 8;
+    y += 7;
     pdf.text('Domenica 19 aprile 2026', pageW / 2, y, { align: 'center' });
-    y += 20;
-    pdf.setFontSize(16);
+
+    y += 18;
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(20);
     pdf.setTextColor(33, 22, 56);
     pdf.text(currentUser.name, pageW / 2, y, { align: 'center' });
+
+    // Logo at bottom center of cover
+    if (logoDataUrl) {
+      const logoSize = 35;
+      pdf.addImage(logoDataUrl, 'PNG', (pageW - logoSize) / 2, pageH - 60, logoSize, logoSize);
+    }
+
+    drawFooter();
 
     // ── Area pages ──
     AREAS.forEach(area => {
       pdf.addPage();
       y = margin;
 
+      // Colored header bar
+      pdf.setFillColor(70, 38, 120);
+      pdf.rect(0, 0, pageW, 3, 'F');
+
       // Title
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(20);
+      pdf.setFontSize(22);
       pdf.setTextColor(70, 38, 120);
-      pdf.text(area.title, margin, y);
-      y += 8;
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
+      pdf.text(area.title, margin, y + 2);
+      y += 10;
+
+      pdf.setFont('helvetica', 'italic');
+      pdf.setFontSize(9);
       pdf.setTextColor(107, 102, 96);
       pdf.text(area.subtitle, margin, y);
-      y += 14;
+      y += 6;
 
-      // Scores
+      drawAccentLine(y);
+      y += 10;
+
+      // Scores box
       const areaData = userData.areas?.[area.id] || {};
       const doveSono = areaData.doveSono ?? 5;
       const doveVado = areaData.doveVado ?? 5;
 
       pdf.setFillColor(247, 245, 242);
-      pdf.roundedRect(margin, y, contentW, 20, 3, 3, 'F');
+      pdf.roundedRect(margin, y, contentW, 22, 3, 3, 'F');
+
+      // Score bar visuals
+      const barW = 50;
+      const barH = 4;
+      const barX = margin + 55;
+
+      // Dove sono
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(10);
+      pdf.setFontSize(9);
       pdf.setTextColor(70, 38, 120);
-      pdf.text(`Dove sono oggi: ${doveSono}/10`, margin + 8, y + 8);
+      pdf.text(`Dove sono oggi:`, margin + 5, y + 8);
+      pdf.setFillColor(220, 215, 230);
+      pdf.roundedRect(barX, y + 4.5, barW, barH, 1.5, 1.5, 'F');
+      pdf.setFillColor(70, 38, 120);
+      pdf.roundedRect(barX, y + 4.5, barW * (doveSono / 10), barH, 1.5, 1.5, 'F');
+      pdf.text(`${doveSono}/10`, barX + barW + 4, y + 8);
+
+      // Dove vado
       pdf.setTextColor(231, 64, 48);
-      pdf.text(`Dove voglio andare: ${doveVado}/10`, margin + 8, y + 16);
-      y += 28;
+      pdf.text(`Dove voglio andare:`, margin + 5, y + 17);
+      pdf.setFillColor(250, 220, 218);
+      pdf.roundedRect(barX, y + 13.5, barW, barH, 1.5, 1.5, 'F');
+      pdf.setFillColor(231, 64, 48);
+      pdf.roundedRect(barX, y + 13.5, barW * (doveVado / 10), barH, 1.5, 1.5, 'F');
+      pdf.text(`${doveVado}/10`, barX + barW + 4, y + 17);
+
+      y += 30;
 
       // Questions & Answers
       area.questions.forEach((q, qi) => {
         const answer = areaData.answers?.[`q${qi}`] || '(nessuna risposta)';
 
-        if (y > 260) { pdf.addPage(); y = margin; }
+        if (y > 255) { pdf.addPage(); y = margin; pdf.setFillColor(70, 38, 120); pdf.rect(0, 0, pageW, 3, 'F'); drawFooter(); }
 
+        // Question number badge
+        pdf.setFillColor(231, 64, 48);
+        pdf.circle(margin + 3, y - 1.2, 3, 'F');
         pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(10);
-        pdf.setTextColor(231, 64, 48);
-        pdf.text(`${qi + 1}.`, margin, y);
-        pdf.setTextColor(26, 26, 26);
-        const qLines = pdf.splitTextToSize(q, contentW - 8);
-        pdf.text(qLines, margin + 6, y);
-        y += qLines.length * 5 + 4;
+        pdf.setFontSize(8);
+        pdf.setTextColor(255, 255, 255);
+        pdf.text(`${qi + 1}`, margin + 3, y, { align: 'center' });
 
+        // Question text
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(9.5);
+        pdf.setTextColor(26, 26, 26);
+        const qLines = pdf.splitTextToSize(q, contentW - 12);
+        pdf.text(qLines, margin + 9, y);
+        y += qLines.length * 4.5 + 3;
+
+        // Answer text
         pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(10);
+        pdf.setFontSize(9.5);
         pdf.setTextColor(60, 60, 60);
-        const aLines = pdf.splitTextToSize(answer, contentW - 4);
-        pdf.text(aLines, margin + 4, y);
-        y += aLines.length * 5 + 10;
+        const aLines = pdf.splitTextToSize(answer, contentW - 6);
+        pdf.text(aLines, margin + 6, y);
+        y += aLines.length * 4.5 + 10;
       });
+
+      drawFooter();
     });
 
     // ── Radar chart page ──
     pdf.addPage();
+    pdf.setFillColor(70, 38, 120);
+    pdf.rect(0, 0, pageW, 3, 'F');
     y = margin;
+
     pdf.setFont('helvetica', 'bold');
-    pdf.setFontSize(20);
+    pdf.setFontSize(22);
     pdf.setTextColor(70, 38, 120);
-    pdf.text('Riepilogo', margin, y);
-    y += 12;
+    pdf.text('Riepilogo', margin, y + 2);
+    y += 8;
+    drawAccentLine(y);
+    y += 8;
 
     // Add radar chart as image
     if (radarChart) {
       const chartImg = radarChart.toBase64Image();
-      const chartSize = 120;
+      const chartSize = 110;
       pdf.addImage(chartImg, 'PNG', (pageW - chartSize) / 2, y, chartSize, chartSize);
-      y += chartSize + 14;
+      y += chartSize + 12;
     }
 
     // Objectives
@@ -733,15 +872,24 @@ async function exportPDF() {
     if (objectives.length > 0) {
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(13);
-      pdf.setTextColor(33, 22, 56);
+      pdf.setTextColor(70, 38, 120);
       pdf.text('I miei obiettivi', margin, y);
       y += 8;
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(10);
-      pdf.setTextColor(60, 60, 60);
+      pdf.setTextColor(50, 50, 50);
       objectives.forEach((obj, i) => {
-        pdf.text(`${i + 1}. ${obj}`, margin + 4, y);
-        y += 6;
+        pdf.setFillColor(70, 38, 120);
+        pdf.circle(margin + 3, y - 1.2, 2.5, 'F');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7);
+        pdf.setTextColor(255, 255, 255);
+        pdf.text(`${i + 1}`, margin + 3, y, { align: 'center' });
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(50, 50, 50);
+        pdf.text(obj, margin + 9, y);
+        y += 7;
       });
       y += 6;
     }
@@ -751,17 +899,28 @@ async function exportPDF() {
     if (actions.length > 0) {
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(13);
-      pdf.setTextColor(33, 22, 56);
+      pdf.setTextColor(231, 64, 48);
       pdf.text('Come ci arrivo', margin, y);
       y += 8;
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(10);
-      pdf.setTextColor(60, 60, 60);
+      pdf.setTextColor(50, 50, 50);
       actions.forEach((act, i) => {
-        pdf.text(`${i + 1}. ${act}`, margin + 4, y);
-        y += 6;
+        pdf.setFillColor(231, 64, 48);
+        pdf.circle(margin + 3, y - 1.2, 2.5, 'F');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7);
+        pdf.setTextColor(255, 255, 255);
+        pdf.text(`${i + 1}`, margin + 3, y, { align: 'center' });
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(10);
+        pdf.setTextColor(50, 50, 50);
+        pdf.text(act, margin + 9, y);
+        y += 7;
       });
     }
+
+    drawFooter();
 
     pdf.save(`PuntoDellaStrada_${currentUser.name.replace(/\s+/g, '_')}.pdf`);
   } catch (err) {

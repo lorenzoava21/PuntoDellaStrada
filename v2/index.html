@@ -107,6 +107,7 @@
           <p>Alla fine, datti <strong>2-3 obiettivi</strong> concreti su cui lavorare e trova i modi per raggiungerli.</p>
         </div>
       </div>
+      <p class="domande-nota">Nel rispondere alle domande, confrontati con la <strong>Promessa</strong>, il <strong>Motto</strong>, la <strong>Carta di Clan</strong> e con il <strong>Vangelo</strong>.</p>
     </div>
 
     <div class="home-timeline" id="home-timeline"></div>
@@ -145,15 +146,20 @@
     </div>
 
     <div class="summary-actions">
-      <button class="btn-primary" id="btn-export-pdf">Esporta PDF</button>
       <button class="btn-prev" id="btn-back-io">&larr; Io</button>
+      <button class="btn-primary" id="btn-export-pdf">Esporta PDF</button>
       <button class="btn-secondary" id="btn-back-home">Torna alla Home</button>
       <button class="btn-logout" id="btn-logout">Esci</button>
     </div>
+  </section>
 
-    <!-- Feedback form (hidden until PDF exported) -->
-    <div id="feedback-form" class="feedback-form" style="display:none">
-      <h3>Come hai vissuto questo punto della strada?</h3>
+  <!-- FEEDBACK -->
+  <section id="view-feedback" class="view">
+    <div id="feedback-content" class="feedback-view">
+      <div class="feedback-icon">&#9997;</div>
+      <h2>Come hai vissuto questo punto della strada?</h2>
+      <p class="subtitle">Il tuo feedback ci aiuta a migliorare.</p>
+
       <div class="feedback-stars">
         <button class="feedback-star" data-val="1">&#9733;</button>
         <button class="feedback-star" data-val="2">&#9733;</button>
@@ -161,7 +167,13 @@
         <button class="feedback-star" data-val="4">&#9733;</button>
         <button class="feedback-star" data-val="5">&#9733;</button>
       </div>
-      <textarea id="feedback-comment" class="feedback-comment" rows="3" placeholder="Commenti o suggerimenti..."></textarea>
+
+      <textarea id="feedback-comment" class="feedback-comment" rows="4" placeholder="Commenti o suggerimenti..."></textarea>
+
+      <div class="summary-actions">
+        <button class="btn-secondary" id="btn-fb-home">Torna alla Home</button>
+        <button class="btn-logout" id="btn-fb-logout">Esci</button>
+      </div>
     </div>
   </section>
 

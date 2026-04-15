@@ -911,20 +911,27 @@ footer {
   color: var(--viola-dk);
 }
 
-/* ====== FEEDBACK FORM ====== */
-.feedback-form {
-  margin-top: 28px;
-  padding: 22px;
-  background: var(--surface);
-  border-radius: 12px;
-  border: 1px solid var(--border);
+/* ====== FEEDBACK VIEW ====== */
+.feedback-view {
   text-align: center;
+  padding: 28px 20px;
+  max-width: 680px;
+  margin: 0 auto;
 }
-.feedback-form h3 {
+.feedback-icon {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+.feedback-view h2 {
   font-family: 'Roboto Slab', serif;
   color: var(--viola-dk);
-  font-size: 1.05rem;
-  margin-bottom: 14px;
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+.feedback-view .subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 22px;
 }
 .feedback-stars {
   display: flex;
@@ -948,13 +955,14 @@ footer {
 }
 .feedback-comment {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
   font-family: 'Roboto', sans-serif;
   font-size: 0.9rem;
   resize: vertical;
   background: #fff;
+  margin-bottom: 22px;
 }
 .feedback-comment:focus {
   outline: none;

@@ -1,4 +1,4 @@
-import { AREAS } from './data.js';
+import { AREAS } from './data.js?v=3';
 
 // ─── Firebase Setup ───
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';

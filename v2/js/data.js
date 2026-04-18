@@ -55,8 +55,8 @@ export const AREAS = [
     subtitle: 'Non per chi lo fa. Per chi ne ha bisogno.',
     icon: 'ic-servizio',
     stimuli: [
-      { type: 'video', label: 'Guarda', title: 'L\'unione fa la forza', url: 'https://www.youtube.com/embed/KH-qIwAGQNk' },
-      { type: 'video', label: 'Guarda', title: 'Lavoro di squadra', url: 'https://www.youtube.com/embed/fUXdrl9ch_Q' },
+      { type: 'video', label: 'Ascolta', title: 'Mattia Civico — Manda me', url: 'https://www.youtube.com/embed/C7QQ9hdUlyg' },
+      { type: 'video', label: 'Guarda', title: 'La felicità è aiutare gli altri', url: 'https://www.youtube.com/embed/zcruIov45bI' },
       { type: 'video', label: 'Ascolta', title: 'Gen Verde — Servire è regnare', url: 'https://www.youtube.com/embed/nJYq0OsOho0' }
     ],
     quotes: [
@@ -75,7 +75,9 @@ export const AREAS = [
     subtitle: 'Il clan, la vita, gli altri. Il "tu" che è fratello.',
     icon: 'ic-comunita',
     stimuli: [
-      { type: 'video', label: 'Ascolta', title: 'Francesco Guccini — Canzone per un\'amica', url: 'https://www.youtube.com/embed/4H0fPsORIAo' }
+      { type: 'video', label: 'Guarda', title: 'L\'unione fa la forza', url: 'https://www.youtube.com/embed/KH-qIwAGQNk' },
+      { type: 'video', label: 'Guarda', title: 'Lavoro di squadra', url: 'https://www.youtube.com/embed/fUXdrl9ch_Q' },
+      { type: 'video', label: 'Guarda', title: 'Ho scelto di partire', url: 'https://www.youtube.com/embed/8sZjgidhavc' }
     ],
     quotes: [
       { text: 'C\'è un "tu" che mi precede. Un fratello che esiste prima che io lo riconosca.' }
